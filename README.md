@@ -1,6 +1,6 @@
 ## DotSub Demo
 
-Manage your albums and photos without ease.
+Manage your albums and photos with ease.
 
 #### Requirements:
 

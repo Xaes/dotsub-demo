@@ -5,7 +5,7 @@ const AppConfig = {
     SEO: {
         TITLE: process.env.REACT_APP_WEBSITE_TITLE || "DotSub Demo",
         DESCRIPTION:
-            process.env.REACT_APP_WEBSITE_DESCRIPTION || "Manage your albums and photos without ease.",
+            process.env.REACT_APP_WEBSITE_DESCRIPTION || "Manage your albums and photos with ease.",
         BANNER: process.env.REACT_APP_WEBSITE_BANNER || "/banner.png",
     },
     LINKS: {
