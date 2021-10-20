@@ -14,12 +14,11 @@ const SEO: FC<SiteSEO> = (props) => {
     const url = window && window.location ? new URL(window.location.href) : undefined;
 
     const SEO: SiteSEO = {
-        ...Config.SEO,
-        ...props,
         title: props.title
-            ? `${props.title} | ${Config.SEO.title}`
-            : `${Config.SEO.title} | ${Config.SEO.description}`,
-        banner: props.banner || (url ? `${url.origin}${Config.SEO.banner}` : "")
+            ? `${props.title} | ${Config.SEO.TITLE}`
+            : `${Config.SEO.TITLE} | ${Config.SEO.DESCRIPTION}`,
+        description: props.description || Config.SEO.DESCRIPTION,
+        banner: props.banner || (url ? `${url.origin}${Config.SEO.BANNER}` : "")
     };
 
     return (

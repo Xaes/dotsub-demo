@@ -30,9 +30,9 @@ describe("SEO setting content correctly.", () => {
         const helmet = Helmet.peek();
         await waitFor(() => {
             const { titles, descriptions, banners } = getMetadata(helmet);
-            const expectedTitle = `${Config.SEO.title} | ${Config.SEO.description}`;
-            const expectedDescription = Config.SEO.description;
-            const expectedBanner = `http://localhost${Config.SEO.banner}`;
+            const expectedTitle = `${Config.SEO.TITLE} | ${Config.SEO.DESCRIPTION}`;
+            const expectedDescription = Config.SEO.DESCRIPTION;
+            const expectedBanner = `http://localhost${Config.SEO.BANNER}`;
 
             expect(titles.every((t) => t === expectedTitle)).toBeTruthy();
             expect(descriptions.every((d) => d === expectedDescription)).toBeTruthy();
@@ -50,7 +50,7 @@ describe("SEO setting content correctly.", () => {
 
         await waitFor(() => {
             const { titles, descriptions, banners } = getMetadata(helmet);
-            const expectedTitle = `${title} | ${Config.SEO.title}`
+            const expectedTitle = `${title} | ${Config.SEO.TITLE}`
             const expectedDescription = description;
             const expectedBanner = banner;
 

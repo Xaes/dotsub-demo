@@ -3,12 +3,17 @@ dotenv.config();
 
 const AppConfig = {
     SEO: {
-        title: process.env.REACT_APP_WEBSITE_TITLE || "DotSub Demo",
-        description:
+        TITLE: process.env.REACT_APP_WEBSITE_TITLE || "DotSub Demo",
+        DESCRIPTION:
             process.env.REACT_APP_WEBSITE_DESCRIPTION || "Manage your albums and photos without ease.",
-        banner: process.env.REACT_APP_WEBSITE_BANNER || "/banner.png",
+        BANNER: process.env.REACT_APP_WEBSITE_BANNER || "/banner.png",
     },
-    LINKS: {},
+    LINKS: {
+        HOME: "/",
+        NEW_ALBUM: "/album",
+        ALBUM: "/album/:albumId",
+        IMAGE: "/album/:albumId/photo/:photoId"
+    },
 };
 
 export default AppConfig;
