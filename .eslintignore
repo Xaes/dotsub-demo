@@ -1,0 +1,14 @@
+# Ignore Output:
+
+build
+coverage
+.cache
+public
+
+# Ignore all HTML files:
+
+*.html
+
+# Ignore Env files:
+
+.env

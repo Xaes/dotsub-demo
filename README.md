@@ -1,46 +1,21 @@
-# Getting Started with Create React App
+## DotSub Demo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Manage your albums and photos without ease.
 
-## Available Scripts
+#### Requirements:
 
-In the project directory, you can run:
+-   A user can organize their pictures in multiple albums. Albums are named.
 
-### `yarn start`
+-   Each picture has a creation date, and an optional, editable, custom tag.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+-   A single picture or a whole album can be shared with an email address recipient.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+-   Users can search pictures by album name, by creation date range, by tag, by the email of the user they've been shared with, or a combination of these filters.
 
-### `yarn test`
+#### Considerations:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   You can use react-create-app (or Angular CLI) to create the app, along with any quality assurance mechanisms or build tool of choice.
 
-### `yarn build`
+-   There's no need for a back-end, and you can use any sample data as filler. The search/edit/sharing actions don't need to be functioning.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+-   The PoC does not need to send out any emails, just allow users to input an email address on pictures/albums they want to share.
