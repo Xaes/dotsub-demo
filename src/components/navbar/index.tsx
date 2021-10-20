@@ -6,7 +6,7 @@ import MoonIcon from "@heroicons/react/outline/MoonIcon";
 import { ReactComponent as Logo } from "../../svg/logo.svg";
 
 const Navbar: FC = () => (
-    <header id="main-header" role="navigation">
+    <nav id="main-header" role="navigation">
         <div className="container p-8 mx-auto flex items-center justify-between">
             <Link to={Config.LINKS.HOME} className="flex items-center group">
                 <Logo className="w-8 h-8 mr-4" />
@@ -21,7 +21,7 @@ const Navbar: FC = () => (
                 </button>
             </div>
         </div>
-    </header>
+    </nav>
 );
 
 Navbar.displayName = "Navbar";
