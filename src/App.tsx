@@ -7,30 +7,15 @@ import NotFound from "./modules/not-found";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App: FC = () => (
-    <Layout>
-        <Router>
+    <Router>
+        <Layout>
             <Switch>
-                <Route
-                    exact
-                    path={Config.LINKS.HOME}
-                    component={() => <Home />}
-                />
-                <Route
-                    exact
-                    path={Config.LINKS.ALBUM}
-                    component={() => <Album />}
-                />
-                <Route
-                    path="*"
-                    component={() => (
-                        <Layout>
-                            <NotFound />
-                        </Layout>
-                    )}
-                />
+                <Route exact path={Config.LINKS.HOME} component={() => <Home />} />
+                <Route exact path={Config.LINKS.ALBUM} component={() => <Album />} />
+                <Route path="*" component={() => <NotFound />} />
             </Switch>
-        </Router>
-    </Layout>
+        </Layout>
+    </Router>
 );
 
 App.displayName = "App";

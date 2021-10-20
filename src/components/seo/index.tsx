@@ -10,7 +10,6 @@ export interface SiteSEO {
 }
 
 const SEO: FC<SiteSEO> = (props) => {
-
     const url = window && window.location ? new URL(window.location.href) : undefined;
 
     const SEO: SiteSEO = {
@@ -18,7 +17,7 @@ const SEO: FC<SiteSEO> = (props) => {
             ? `${props.title} | ${Config.SEO.TITLE}`
             : `${Config.SEO.TITLE} | ${Config.SEO.DESCRIPTION}`,
         description: props.description || Config.SEO.DESCRIPTION,
-        banner: props.banner || (url ? `${url.origin}${Config.SEO.BANNER}` : "")
+        banner: props.banner || (url ? `${url.origin}${Config.SEO.BANNER}` : ""),
     };
 
     return (

@@ -5,26 +5,28 @@ import { waitFor, render } from "@testing-library/react";
 import { Helmet, HelmetPropsToState } from "react-helmet";
 
 const getMetadataValue = (selectors: string[], meta: HTMLMetaElement[]) => {
-    return meta.filter((m: any) => selectors.includes(m.property || m.name))
+    return meta
+        .filter((m: any) => selectors.includes(m.property || m.name))
         .map((m: HTMLMetaElement) => m.content);
-}
+};
 
 const getMetadata = (helmet: HelmetPropsToState) => {
-
     const titleSelectors = ["og:title", "og:site_name", "twitter:title"];
-    const descriptionSelectors = ["og:description", "twitter:desimageSelectorscription", "description"];
+    const descriptionSelectors = [
+        "og:description",
+        "twitter:desimageSelectorscription",
+        "description",
+    ];
     const imageSelectors = ["og:image", "twitter:image"];
 
     return {
         titles: [helmet.title, ...getMetadataValue(titleSelectors, helmet.metaTags)],
         descriptions: getMetadataValue(descriptionSelectors, helmet.metaTags),
-        banners: getMetadataValue(imageSelectors, helmet.metaTags)
+        banners: getMetadataValue(imageSelectors, helmet.metaTags),
     };
-
 };
 
 describe("SEO setting content correctly.", () => {
-
     test("Default Props", async () => {
         render(<SEO />);
         const helmet = Helmet.peek();
@@ -50,7 +52,7 @@ describe("SEO setting content correctly.", () => {
 
         await waitFor(() => {
             const { titles, descriptions, banners } = getMetadata(helmet);
-            const expectedTitle = `${title} | ${Config.SEO.TITLE}`
+            const expectedTitle = `${title} | ${Config.SEO.TITLE}`;
             const expectedDescription = description;
             const expectedBanner = banner;
 
