@@ -1,6 +1,7 @@
 import React, { FC } from "react";
+import PageHeader from "../../components/page-header";
 
-const NotFound: FC = () => <h1>Not Found</h1>;
+const NotFound: FC = () => (<PageHeader title="Oops" subtitle="Page not found" />);
 
 NotFound.displayName = "NotFound";
 export default NotFound;

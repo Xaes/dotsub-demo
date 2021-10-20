@@ -12,7 +12,7 @@ const Layout: FC<{ seo?: SiteSEO }> = ({ children, seo }) => (
             }}
         />
         <Navbar />
-        <main id="main" role="main">
+        <main id="main" role="main" className="container px-8 py-12">
             {children}
         </main>
     </React.Fragment>
