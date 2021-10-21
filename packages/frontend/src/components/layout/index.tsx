@@ -12,7 +12,9 @@ const Layout: FC<{ seo?: SiteSEO }> = ({ children, seo }) => {
             <SEO {...seo} />
             <Helmet
                 bodyAttributes={{
-                    class: `${data?.color} ${data?.color === Colors.DARK ? "bg-gray-900" : "bg-gray-100"} transition-colors`,
+                    class: `${data?.color} ${
+                        data?.color === Colors.DARK ? "bg-gray-900" : "bg-gray-100"
+                    } transition-colors`,
                 }}
             />
             <Navbar />
@@ -21,7 +23,6 @@ const Layout: FC<{ seo?: SiteSEO }> = ({ children, seo }) => {
             </main>
         </React.Fragment>
     );
-
 };
 
 export default Layout;

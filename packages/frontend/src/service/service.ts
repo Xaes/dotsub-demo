@@ -1,7 +1,6 @@
 import { IAlbum, IPhoto, IService, IShareable } from "@dotsub-demo/common/common";
 
 class Service implements IService {
-
     getAllAlbums(): Promise<IAlbum[]> {
         throw new Error("Method not implemented.");
     }
@@ -23,7 +22,7 @@ class Service implements IService {
     addAlbum(albumId: Pick<IAlbum, "id">): Promise<IAlbum> {
         throw new Error("Method not implemented.");
     }
-    
+
     share(shareableEntity: IShareable): Promise<string[]> {
         throw new Error("Method not implemented.");
     }
@@ -31,5 +30,4 @@ class Service implements IService {
     includePhotoInAlbum(photoId: Pick<IPhoto, "id">, albumId: Pick<IAlbum, "id">) {
         throw new Error("Method not implemented.");
     }
-
 }

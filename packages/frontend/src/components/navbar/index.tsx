@@ -30,7 +30,11 @@ const Navbar: FC = () => {
                         role="button"
                         data-testid="theme-switcher"
                     >
-                        {data?.color === Colors.DARK ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+                        {data?.color === Colors.DARK ? (
+                            <SunIcon className="h-5 w-5" />
+                        ) : (
+                            <MoonIcon className="h-5 w-5" />
+                        )}
                     </button>
                 </div>
             </div>

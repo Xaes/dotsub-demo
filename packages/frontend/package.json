@@ -1,5 +1,5 @@
 {
-    "name": "dotsub-demo-frontend",
+    "name": "@dotsub-demo/frontend",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -41,7 +41,8 @@
         "postcss": "^7",
         "prettier": "^2.4.1",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-        "typescript": "^4.1.2"
+        "typescript": "^4.1.2",
+        "@dotsub-demo/common": "*"
     },
     "scripts": {
         "start": "craco start",

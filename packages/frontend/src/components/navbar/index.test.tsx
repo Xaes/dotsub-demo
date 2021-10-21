@@ -21,11 +21,12 @@ describe("Navbar renders correctly.", () => {
     });
 
     test("Check that theme switcher toggles correctly.", async () => {
-        const screen = renderWithRouter((
+        const screen = renderWithRouter(
             <ColorSchemeProvider>
                 <Navbar />
-            </ColorSchemeProvider>
-        ), Config.LINKS.HOME);
+            </ColorSchemeProvider>,
+            Config.LINKS.HOME
+        );
 
         const toggleButton = screen.getByTestId("theme-switcher");
 
@@ -36,14 +37,21 @@ describe("Navbar renders correctly.", () => {
         // After a click, the theme should switch to "dark".
 
         fireEvent.click(toggleButton);
-        expect(window.localStorage.getItem("color-scheme") === Colors.DARK.toString()).toBeTruthy();
-        waitFor(() => expect(document.body.classList.contains(Colors.DARK.toString())).toBeTruthy());
+        expect(
+            window.localStorage.getItem("color-scheme") === Colors.DARK.toString()
+        ).toBeTruthy();
+        waitFor(() =>
+            expect(document.body.classList.contains(Colors.DARK.toString())).toBeTruthy()
+        );
 
         // After another click, the theme should switch to "light".
 
         fireEvent.click(toggleButton);
-        expect(window.localStorage.getItem("color-scheme") === Colors.LIGHT.toString()).toBeTruthy();
-        waitFor(() => expect(document.body.classList.contains(Colors.LIGHT.toString())).toBeTruthy());
-
+        expect(
+            window.localStorage.getItem("color-scheme") === Colors.LIGHT.toString()
+        ).toBeTruthy();
+        waitFor(() =>
+            expect(document.body.classList.contains(Colors.LIGHT.toString())).toBeTruthy()
+        );
     });
 });
