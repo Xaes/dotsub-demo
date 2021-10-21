@@ -1,19 +1,15 @@
 import Card from "../card";
 import Config from "../../config";
-import { Service } from "../../service/service";
-import { IAlbum } from "@dotsub-demo/common/common";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAlbums, selectAll } from "../../redux/slices/album";
 
 const AlbumList: FC = () => {
-    const [albums, setAlbums] = useState<IAlbum[]>([]);
+    const albums = useSelector(selectAll);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetch = async () => {
-            const albums = await Service.singleton.getAllAlbums();
-            setAlbums((prevState) => prevState.concat(albums));
-        };
-
-        fetch();
+        dispatch(fetchAlbums())
     }, []);
 
     const albumItems = albums.map((album) => (

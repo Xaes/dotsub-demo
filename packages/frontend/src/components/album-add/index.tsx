@@ -1,8 +1,11 @@
 import React, { FC } from "react";
+import { useDispatch } from "react-redux";
 import useForm from "../../hooks/useForm";
-import { Service } from "../../service/service";
+import { addAlbum } from "../../redux/slices/album";
 
 const AlbumAdd: FC = () => {
+    const dispatch = useDispatch();
+
     const { registerValue, submit, items } = useForm({
         items: {
             name: {
@@ -12,10 +15,12 @@ const AlbumAdd: FC = () => {
             },
         },
         onSubmit: async ({ items }) => {
-            await Service.singleton.addAlbum({
-                name: items.name.value as string,
-                photos: [],
-            });
+            await dispatch(
+                addAlbum({
+                    name: items.name.value as string,
+                    photos: [],
+                })
+            );
         },
     });
 
@@ -25,10 +30,7 @@ const AlbumAdd: FC = () => {
                 role="form"
                 className="col-span-4"
                 data-testid="create-album-form"
-                onSubmit={(event) => {
-                    event.preventDefault();
-                    submit();
-                }}
+                onSubmit={(event) => event.preventDefault()}
             >
                 <div className="form-group">
                     <label>
@@ -46,7 +48,7 @@ const AlbumAdd: FC = () => {
                         </span>
                     )}
                 </div>
-                <button type="submit" className="primary-button mt-8">
+                <button type="submit" className="primary-button mt-8" onClick={submit}>
                     Create
                 </button>
             </form>
