@@ -13,10 +13,19 @@ const App: FC = () => (
         <Router>
             <Layout>
                 <Switch>
-                    <Route exact strict path="/" component={() => <Redirect to={Config.LINKS.EXPLORE_BY_ALBUM} />} />
+                    <Route
+                        exact
+                        strict
+                        path="/"
+                        component={() => <Redirect to={Config.LINKS.EXPLORE_BY_ALBUM} />}
+                    />
                     <Route path={Config.LINKS.HOME} component={() => <Home />} />
                     <Route exact path={Config.LINKS.ALBUM} component={() => <Album />} />
-                    <Route exact path={Config.LINKS.NEW_ALBUM} component={() => <AlbumAdd />} />
+                    <Route
+                        exact
+                        path={Config.LINKS.NEW_ALBUM}
+                        component={() => <AlbumAdd />}
+                    />
                     <Route path="*" component={() => <NotFound />} />
                 </Switch>
             </Layout>

@@ -72,12 +72,39 @@
     a {
         @apply font-medium hover:text-primary text-black dark:text-white;
     }
+
+    input {
+        @apply block h-14 text-gray-500 px-6 font-medium w-full rounded-2xl border outline-none border-gray-300 dark:border-gray-700 dark:bg-transparent bg-transparent transition-all active:border-primary focus:border-primary dark:active:border-primary dark:focus:border-primary;
+    }
+}
+
+/** Forms **/
+
+form .form-group label > span,
+form .form-group {
+    @apply mb-4;
+}
+
+form .form-group label > span {
+    @apply block;
+}
+
+form .form-group label {
+    @apply font-medium font-sans text-gray-500;
+}
+
+form .form-group .error-feedback {
+    @apply text-red-600 block mt-2 font-medium;
 }
 
 /** Buttons **/
 
 .rounded-button {
     @apply fill-current h-10 w-10 rounded-full flex items-center justify-center text-white bg-primary hover:bg-black dark:hover:bg-white dark:hover:text-black shadow-md hover:shadow-2xl transition-all;
+}
+
+.primary-button {
+    @apply py-3 px-5 font-bold text-sm rounded-xl bg-primary text-white hover:bg-primary-light transition-all shadow-md hover:shadow-2xl;
 }
 
 /** Utils **/

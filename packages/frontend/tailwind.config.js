@@ -37,7 +37,9 @@ module.exports = {
         },
     },
     variants: {
-        extend: {},
+        extend: {
+            borderColor: ["active", "focus"],
+        },
     },
     plugins: [],
 };

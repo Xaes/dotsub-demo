@@ -13,14 +13,18 @@ const Card: FC<{
             image ? "background" : "background-pattern"
         }`}
     >
-        <div className="background"></div>
+        <div className="background w-full h-64"></div>
         <div className="p-8">
-            <h6 className="text-black dark:text-white">{title}</h6>
+            <h6 className="text-black dark:text-white leading-none">{title}</h6>
             <time
                 dateTime={time.toString()}
                 className="text-gray-500 font-normal text-xs leading-none"
             >
-                {time.toLocaleDateString()}
+                {time.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                })}
             </time>
         </div>
     </Link>
