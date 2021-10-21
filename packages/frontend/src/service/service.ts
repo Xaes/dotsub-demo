@@ -1,33 +1,54 @@
-import { IAlbum, IPhoto, IService, IShareable } from "@dotsub-demo/common/common";
+import AlbumRepo from "./album-repo";
+import PhotoRepo from "./photo-repo";
+import { EntityParams, IAlbum, IPhoto, IService, IShareable } from "@dotsub-demo/common/common";
 
-class Service implements IService {
+export class Service implements IService {
+
+    private static _singleton: IService;
+
+    private constructor() { return }
+
     getAllAlbums(): Promise<IAlbum[]> {
-        throw new Error("Method not implemented.");
+        return AlbumRepo.singleton.getAll();
     }
+
     getAllPhotos(): Promise<IPhoto[]> {
-        throw new Error("Method not implemented.");
+        return PhotoRepo.singleton.getAll();
     }
-    getPhotosByAlbum(albumId: Pick<IAlbum, "id">): Promise<IPhoto[]> {
-        throw new Error("Method not implemented.");
+
+    getPhotosByAlbum(albumId: string): Promise<IPhoto[]> {
+        return AlbumRepo.singleton.getById(albumId)
+            .then(a => PhotoRepo.singleton.getAll((photo: IPhoto) => {
+                return a.photos.includes(photo.id);
+            }))
     }
-    getAlbumById(albumId: Pick<IAlbum, "id">): Promise<IAlbum> {
-        throw new Error("Method not implemented.");
+
+    getAlbumById(albumId: string): Promise<IAlbum> {
+        return AlbumRepo.singleton.getById(albumId);
     }
-    getPhotoById(photoId: Pick<IPhoto, "id">): Promise<IPhoto> {
-        throw new Error("Method not implemented.");
+
+    getPhotoById(photoId: string): Promise<IPhoto> {
+        return PhotoRepo.singleton.getById(photoId);
     }
-    addPhoto(photo: IPhoto): Promise<IPhoto> {
-        throw new Error("Method not implemented.");
+
+    addPhoto(photo: EntityParams<IPhoto>): Promise<IPhoto> {
+        return PhotoRepo.singleton.save(photo);
     }
-    addAlbum(albumId: Pick<IAlbum, "id">): Promise<IAlbum> {
-        throw new Error("Method not implemented.");
+
+    addAlbum(album: EntityParams<IAlbum>): Promise<IAlbum> {
+        return AlbumRepo.singleton.save(album);
     }
 
     share(shareableEntity: IShareable): Promise<string[]> {
         throw new Error("Method not implemented.");
     }
 
-    includePhotoInAlbum(photoId: Pick<IPhoto, "id">, albumId: Pick<IAlbum, "id">) {
+    includePhotoInAlbum(photoId: string, albumId: string): Promise<IAlbum> {
         throw new Error("Method not implemented.");
+    }
+
+    static get singleton(): Service {
+        if(!Service._singleton) Service._singleton = new Service();
+        return Service._singleton;
     }
 }

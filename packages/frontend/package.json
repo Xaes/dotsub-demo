@@ -14,6 +14,8 @@
         "@types/react-dom": "^17.0.0",
         "dotenv": "^10.0.0",
         "global": "^4.4.0",
+        "hyperid": "^2.3.1",
+        "localforage": "^1.10.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-helmet": "^6.1.0",
@@ -23,6 +25,7 @@
         "web-vitals": "^1.0.1"
     },
     "devDependencies": {
+        "@dotsub-demo/common": "*",
         "@testing-library/jest-dom": "^5.11.4",
         "@testing-library/react": "^11.1.0",
         "@testing-library/user-event": "^12.1.10",
@@ -41,8 +44,7 @@
         "postcss": "^7",
         "prettier": "^2.4.1",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-        "typescript": "^4.1.2",
-        "@dotsub-demo/common": "*"
+        "typescript": "^4.1.2"
     },
     "scripts": {
         "start": "craco start",
