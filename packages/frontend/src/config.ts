@@ -10,7 +10,9 @@ const AppConfig = {
         BANNER: process.env.REACT_APP_WEBSITE_BANNER || "/banner.png",
     },
     LINKS: {
-        HOME: "/",
+        HOME: "/explore",
+        EXPLORE_BY_ALBUM: "/explore/albums",
+        EXPLORE_BY_IMAGES: "/explore/images",
         NEW_ALBUM: "/album",
         ALBUM: "/album/:albumId",
         IMAGE: "/album/:albumId/photo/:photoId",

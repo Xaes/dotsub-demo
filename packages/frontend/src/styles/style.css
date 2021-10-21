@@ -65,8 +65,7 @@
     }
 
     a,
-    button,
-    a svg {
+    button {
         @apply transition-all;
     }
 
@@ -79,4 +78,10 @@
 
 .rounded-button {
     @apply fill-current h-10 w-10 rounded-full flex items-center justify-center text-white bg-primary hover:bg-black dark:hover:bg-white dark:hover:text-black shadow-md hover:shadow-2xl transition-all;
+}
+
+/** Utils **/
+
+.background {
+    @apply bg-cover bg-center bg-no-repeat;
 }

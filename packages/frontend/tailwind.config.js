@@ -6,6 +6,13 @@ const primaryPallette = {
     "primary-dark": colors.indigo[800],
 };
 
+const grayPallette = {
+    "black-1": "#111317",
+    "black-2": "#23262F",
+    "white-1": "#F4F5F6",
+    "white-2": "#E6E8EC",
+};
+
 module.exports = {
     purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
     darkMode: "class",
@@ -13,8 +20,14 @@ module.exports = {
         extend: {
             colors: primaryPallette,
             textColor: primaryPallette,
-            borderColor: primaryPallette,
-            backgroundColor: primaryPallette,
+            borderColor: {
+                ...primaryPallette,
+                ...grayPallette,
+            },
+            backgroundColor: {
+                ...primaryPallette,
+                ...grayPallette,
+            },
             fontFamily: {
                 sans: ['"DM Sans"', "Helvetica", "Arial", "sans-serif"],
             },

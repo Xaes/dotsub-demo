@@ -1,12 +1,19 @@
 import AlbumRepo from "./album-repo";
 import PhotoRepo from "./photo-repo";
-import { EntityParams, IAlbum, IPhoto, IService, IShareable } from "@dotsub-demo/common/common";
+import {
+    EntityParams,
+    IAlbum,
+    IPhoto,
+    IService,
+    IShareable,
+} from "@dotsub-demo/common/common";
 
 export class Service implements IService {
-
     private static _singleton: IService;
 
-    private constructor() { return }
+    private constructor() {
+        return;
+    }
 
     getAllAlbums(): Promise<IAlbum[]> {
         return AlbumRepo.singleton.getAll();
@@ -17,10 +24,11 @@ export class Service implements IService {
     }
 
     getPhotosByAlbum(albumId: string): Promise<IPhoto[]> {
-        return AlbumRepo.singleton.getById(albumId)
-            .then(a => PhotoRepo.singleton.getAll((photo: IPhoto) => {
+        return AlbumRepo.singleton.getById(albumId).then((a) =>
+            PhotoRepo.singleton.getAll((photo: IPhoto) => {
                 return a.photos.includes(photo.id);
-            }))
+            })
+        );
     }
 
     getAlbumById(albumId: string): Promise<IAlbum> {
@@ -48,7 +56,7 @@ export class Service implements IService {
     }
 
     static get singleton(): Service {
-        if(!Service._singleton) Service._singleton = new Service();
+        if (!Service._singleton) Service._singleton = new Service();
         return Service._singleton;
     }
 }

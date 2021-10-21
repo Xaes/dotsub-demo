@@ -12,7 +12,7 @@ const App: FC = () => (
         <Router>
             <Layout>
                 <Switch>
-                    <Route exact path={Config.LINKS.HOME} component={() => <Home />} />
+                    <Route path={Config.LINKS.HOME} component={() => <Home />} />
                     <Route exact path={Config.LINKS.ALBUM} component={() => <Album />} />
                     <Route path="*" component={() => <NotFound />} />
                 </Switch>

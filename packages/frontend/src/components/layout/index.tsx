@@ -13,7 +13,7 @@ const Layout: FC<{ seo?: SiteSEO }> = ({ children, seo }) => {
             <Helmet
                 bodyAttributes={{
                     class: `${data?.color} ${
-                        data?.color === Colors.DARK ? "bg-gray-900" : "bg-gray-100"
+                        data?.color === Colors.DARK ? "bg-black-1" : "bg-white-2"
                     } transition-colors`,
                 }}
             />

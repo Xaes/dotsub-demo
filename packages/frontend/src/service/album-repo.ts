@@ -2,8 +2,7 @@ import IndexedDBRepository from "./repository";
 import { IAlbum } from "../../../@types/common";
 
 export default class AlbumRepo extends IndexedDBRepository<IAlbum> {
-
-    private static _singleton: AlbumRepo
+    private static _singleton: AlbumRepo;
 
     private constructor() {
         super("album-store");
