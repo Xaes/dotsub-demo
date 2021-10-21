@@ -9,23 +9,32 @@ export interface IShareable {
 }
 
 export interface IPhoto extends IBaseEntity, IShareable {
-    url: string
-    tag: string
+    data: string;
+    tag: string;
 }
 
 export interface IAlbum extends IBaseEntity, IShareable {
     name: string,
-    photos: Pick<IPhoto, "id">[]
+    photos: string[]
+}
+
+export type Filter<T extends IBaseEntity> = (entity: T) => boolean;
+
+export interface IRepository<T extends IBaseEntity> {
+    save(entity: T): Promise<T>;
+    getById(id: string): Promise<T>;
+    getAll(filter?: Filter<T>): Promise<T[]>;
+    delete(id: string): Promise<void>;
 }
 
 export interface IService {
     getAllAlbums(): Promise<IAlbum[]>;
     getAllPhotos(): Promise<IPhoto[]>;
-    getPhotosByAlbum(albumId: Pick<IAlbum, "id">): Promise<IPhoto[]>;
-    getAlbumById(albumId: Pick<IAlbum, "id">): Promise<IAlbum>;
-    getPhotoById(photoId: Pick<IPhoto, "id">): Promise<IPhoto>;
+    getPhotosByAlbum(albumId: string): Promise<IPhoto[]>;
+    getAlbumById(albumId: string): Promise<IAlbum>;
+    getPhotoById(photoId: string): Promise<IPhoto>;
     addPhoto(photo: IPhoto): Promise<IPhoto>;
-    addAlbum(albumId: Pick<IAlbum, "id">): Promise<IAlbum>;
+    addAlbum(album: IAlbum): Promise<IAlbum>;
     share(shareableEntity: IShareable): Promise<string[]>;
-    includePhotoInAlbum(photoId: Pick<IPhoto, "id">, albumId: Pick<IAlbum, "id">);
+    includePhotoInAlbum(photoId: string, albumId: string): Promise<IAlbum>
 }
