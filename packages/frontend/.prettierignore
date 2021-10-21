@@ -1,0 +1,9 @@
+# Ignore Output:
+
+build
+coverage
+.cache
+
+# Ignore Env files:
+
+.env
