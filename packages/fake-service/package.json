@@ -1,0 +1,12 @@
+{
+    "name": "@dotsub-demo/fake-service",
+    "version": "0.1.0",
+    "private": true,
+    "description": "A fake service that uses IndexedDB to make CRUD operations.",
+    "dependencies": {
+        "@dotsub-demo/common": "*"
+    },
+    "scripts": {
+        "format": "prettier --write \"**/*.+(ts|tsx|js|jsx|json|html|css|md)\""
+    }
+}

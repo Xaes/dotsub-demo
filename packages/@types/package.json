@@ -1,0 +1,6 @@
+{
+    "name": "@dotsub-demo/common",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Common typings for the overall demo project."
+}
