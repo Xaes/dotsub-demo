@@ -5,11 +5,10 @@ import PageHeader from "../../components/page-header";
 const Album: FC = () => {
     const { albumId } = useParams<{ albumId: string }>();
     return (
-        <PageHeader
-            title={`Album ${albumId}`}
-            subtitle="Browse pictures"
-        />
-    )
+        <section data-testid="album-section">
+            <PageHeader title={`Album ${albumId}`} subtitle="Browse pictures" />
+        </section>
+    );
 };
 
 Album.displayName = "Album";

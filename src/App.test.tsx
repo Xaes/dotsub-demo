@@ -1,27 +1,22 @@
 import App from "./App";
 import React from "react";
 import Config from "./config";
-import { BrowserRouter } from "react-router-dom";
-import { render, screen } from "@testing-library/react";
-
-const renderWithRouter = (element: JSX.Element, route: string | URL) => {
-    window.history.pushState({}, "Test Page", route);
-    return render(element, { wrapper: BrowserRouter });
-};
+import { renderWithRouter } from "./utils";
+import { screen } from "@testing-library/react";
 
 describe("App Navigates Correctly.", () => {
     test("Home Page", () => {
         renderWithRouter(<App />, Config.LINKS.HOME);
-        expect(screen.getByText(/Home/i)).toBeInTheDocument();
+        expect(screen.getByTestId("home-section")).toBeInTheDocument();
     });
 
     test("Album Page", () => {
         renderWithRouter(<App />, Config.LINKS.ALBUM.replace(":albumId", "1"));
-        expect(screen.getByText(/Album/i)).toBeInTheDocument();
+        expect(screen.getByTestId("album-section")).toBeInTheDocument();
     });
 
-    test("Not Found", () => {
+    test("Not Found Page", () => {
         renderWithRouter(<App />, "/oops/not/found");
-        expect(screen.getByText(/Not Found/i)).toBeInTheDocument();
+        expect(screen.getByTestId("not-found-section")).toBeInTheDocument();
     });
 });
