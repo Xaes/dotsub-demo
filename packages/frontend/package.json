@@ -53,6 +53,7 @@
     "scripts": {
         "start": "craco start",
         "build": "craco build",
+        "build-ci": "CI=false craco build",
         "test": "craco test",
         "test-coverage": "yarn test --coverage",
         "eject": "react-scripts eject",
