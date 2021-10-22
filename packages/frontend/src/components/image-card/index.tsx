@@ -19,12 +19,12 @@ const ImageCard: FC<IPhoto> = ({ tag, dataId, id, name, createdAt }) => {
     return (
         <Link
             to={Config.LINKS.IMAGE.replace(":imageId", id)}
-            className={`shadow-md hover:shadow-2xl overflow-hidden rounded-md bg-white-1 dark:bg-black-2 border border-white-1 dark:border-black-2 dark:hover:bg-transparent}`}
+            className={`shadow-md rounded-2xl hover:shadow-2xl bg-white-1 dark:bg-black-2 dark:hover:bg-transparent`}
         >
             <div className="w-full h-64">
-                <img src={`${image}`} alt={`${name} - ${tag}`} className="object-cover w-full h-full" />
+                <img src={`${image}`} alt={`${name} - ${tag}`} className="object-cover rounded-t-2xl w-full h-full" />
             </div>
-            <div className="p-8">
+            <div className="p-8 border border-white-1 dark:border-black-2 rounded-b-2xl">
                 <h6 className="text-black dark:text-white leading-none">{name}</h6>
                 <time
                     dateTime={createdAt}
