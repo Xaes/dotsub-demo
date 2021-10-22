@@ -1,5 +1,6 @@
 import { RootState, GenericState } from ".";
 import { Service } from "../../service/service";
+import defaultMatchers from "./defaultMatchers";
 import { EntityParams, IAlbum } from "@dotsub-demo/common/common";
 import { createSlice, createEntityAdapter, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -54,6 +55,7 @@ export const AlbumSlice = createSlice({
             AlbumAdapter.removeOne(state, payload);
             state.status = "finished";
         });
+        defaultMatchers(builder);
     },
 });
 

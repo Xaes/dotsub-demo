@@ -1,4 +1,4 @@
-import Card from "../card";
+import Card from "../album-card";
 import Empty from "../empty";
 import Config from "../../config";
 import React, { FC, useEffect } from "react";

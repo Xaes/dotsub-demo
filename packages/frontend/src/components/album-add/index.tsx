@@ -2,14 +2,15 @@ import { toBase64 } from "../../utils";
 import DropPhotos from "../drop-photos";
 import { useDispatch } from "react-redux";
 import useForm from "../../hooks/useForm";
+import React, { FC, useState } from "react";
 import UploadPreview from "../upload-preview";
+import { AppDispatch } from "../../redux/store";
 import { addPhoto } from "../../redux/slices/photo";
 import { addAlbum } from "../../redux/slices/album";
-import React, { FC, useState, useEffect } from "react";
 
 const AlbumAdd: FC = () => {
     const [files, setFiles] = useState<{ file: File; data: string }[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     const onDrop = async (acceptedFiles: any[]) => {
         const newFiles = acceptedFiles.map(async (file) => ({
@@ -23,9 +24,6 @@ const AlbumAdd: FC = () => {
             });
         });
     };
-
-    /*eslint-disable*/
-    console.log(files);
 
     const onFileDelete = (index: number) => {
         setFiles((prevState) => {
@@ -43,9 +41,9 @@ const AlbumAdd: FC = () => {
                 validate: { fn: ({ value }) => (value as string).length > 5 },
             },
         },
-        onSubmit: ({ items }) => {
-            files.forEach((file) => {
-                dispatch(
+        onSubmit: async ({ items }) => {
+            const photosIds = files.map(async (file) => {
+                const { id } = await dispatch(
                     addPhoto({
                         photo: {
                             tag: "something idk",
@@ -55,14 +53,18 @@ const AlbumAdd: FC = () => {
                         },
                         photoData: { data: file.data },
                     })
+                ).unwrap();
+                return id;
+            });
+
+            await Promise.all(photosIds).then((photoIds) => {
+                dispatch(
+                    addAlbum({
+                        name: items.name.value as string,
+                        photoIds,
+                    })
                 );
             });
-            dispatch(
-                addAlbum({
-                    name: items.name.value as string,
-                    photoIds: [],
-                })
-            );
         },
     });
 

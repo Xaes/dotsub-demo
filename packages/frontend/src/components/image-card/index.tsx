@@ -1,8 +1,8 @@
 import Config from "../../config";
 import { Link } from "react-router-dom";
+import { Service } from "../../service/service";
 import { IPhoto } from "@dotsub-demo/common/common";
 import React, { FC, useEffect, useState } from "react";
-import { Service } from "../../service/service";
 
 const ImageCard: FC<IPhoto> = ({ tag, dataId, id, name, createdAt }) => {
     const [image, setImage] = useState<string>();
@@ -22,7 +22,11 @@ const ImageCard: FC<IPhoto> = ({ tag, dataId, id, name, createdAt }) => {
             className={`shadow-md rounded-2xl hover:shadow-2xl bg-white-1 dark:bg-black-2 dark:hover:bg-transparent`}
         >
             <div className="w-full h-64">
-                <img src={`${image}`} alt={`${name} - ${tag}`} className="object-cover rounded-t-2xl w-full h-full" />
+                <img
+                    src={`${image}`}
+                    alt={`${name} - ${tag}`}
+                    className="object-cover rounded-t-2xl w-full h-full"
+                />
             </div>
             <div className="p-8 border border-white-1 dark:border-black-2 rounded-b-2xl">
                 <h6 className="text-black dark:text-white leading-none">{name}</h6>

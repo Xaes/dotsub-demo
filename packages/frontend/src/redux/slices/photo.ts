@@ -1,16 +1,17 @@
 import { RootState, GenericState } from ".";
+import defaultMatchers from "./defaultMatchers";
 import { Service } from "../../service/service";
 import { EntityParams, IPhoto, IPhotoData } from "@dotsub-demo/common/common";
 import { createSlice, createEntityAdapter, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const addPhoto = createAsyncThunk<
-    IPhoto,
-    {
-        photo: Omit<EntityParams<IPhoto>, "dataId">;
-        photoData: EntityParams<IPhotoData>;
-    }
->("Photo/AddPhoto", async ({ photo, photoData }) =>
-    Service.singleton.addPhoto(photo, photoData)
+export interface AddPhotoParms {
+    photo: Omit<EntityParams<IPhoto>, "dataId">;
+    photoData: EntityParams<IPhotoData>;
+}
+
+export const addPhoto = createAsyncThunk<IPhoto, AddPhotoParms>(
+    "Photo/AddPhoto",
+    async ({ photo, photoData }) => Service.singleton.addPhoto(photo, photoData)
 );
 
 export const fetchPhotos = createAsyncThunk<IPhoto[]>("Photo/FetchPhotos", async () =>
@@ -59,6 +60,7 @@ export const PhotoSlice = createSlice({
             PhotoAdaper.removeOne(state, payload);
             state.status = "finished";
         });
+        defaultMatchers(builder);
     },
 });
 
