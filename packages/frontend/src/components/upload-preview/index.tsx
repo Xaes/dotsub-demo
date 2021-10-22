@@ -22,7 +22,7 @@ const UploadPreview: FC<{
     ));
 
     return files && files.length > 0 ? (
-        <div className="grid grid-cols-3 mt-8 gap-8">
+        <div className="grid grid-cols-3 mt-8 gap-12">
             {thumbs}
         </div>
     ): null;
