@@ -19,7 +19,7 @@ export default class IndexedDBRepository<T extends IBaseEntity>
             name: storeName,
             version: 1,
         });
-        this._id_gen = hyperid();
+        this._id_gen = hyperid({ urlSafe: true });
     }
 
     async save(entity: EntityParams<T>): Promise<T> {
