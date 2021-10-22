@@ -12,7 +12,7 @@ const UploadPreview: FC<{
             {onFileDelete && (
                 <button
                     type="button"
-                    className="absolute top-6 right-6 rounded-button danger"
+                    className="absolute top-4 right-4 rounded-button danger"
                     onClick={() => onFileDelete(index)}
                 >
                     <TrashIcon className="h-5 w-5" />
