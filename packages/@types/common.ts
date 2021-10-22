@@ -38,4 +38,6 @@ export interface IService {
     addAlbum(album: EntityParams<IAlbum>): Promise<IAlbum>;
     share(shareableEntity: IShareable): Promise<string[]>;
     includePhotoInAlbum(photoId: string, albumId: string): Promise<IAlbum>
+    deleteAlbum(albumId: string): Promise<void>;
+    deletePhoto(photoId: string): Promise<void>;
 }
