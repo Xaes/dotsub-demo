@@ -15,9 +15,9 @@ export default class IndexedDBRepository<T extends IBaseEntity>
 
     constructor(storeName: string) {
         this._store = localforage.createInstance({
+            name: "dotsub-demo",
             driver: localforage.INDEXEDDB,
-            name: storeName,
-            version: 1,
+            storeName: storeName,
         });
         this._id_gen = hyperid({ urlSafe: true });
     }
@@ -26,9 +26,9 @@ export default class IndexedDBRepository<T extends IBaseEntity>
         const fullEntity: T = {
             ...(entity as T),
             id: this._id_gen(),
-            createdAt: new Date(),
+            createdAt: new Date().toString(),
         };
-        return await this._store.setItem(fullEntity.id, fullEntity);
+        return await this._store.setItem<T>(fullEntity.id, fullEntity);
     }
 
     async getById(id: string): Promise<T> {
