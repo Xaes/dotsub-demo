@@ -80,9 +80,12 @@
 
 /** Forms **/
 
-form .form-group label > span,
-form .form-group {
+form .form-group label > span {
     @apply mb-4;
+}
+
+form .form-group {
+    @apply mb-8;
 }
 
 form .form-group label > span {
@@ -93,8 +96,8 @@ form .form-group label {
     @apply font-medium font-sans text-gray-500;
 }
 
-form .form-group .error-feedback {
-    @apply text-red-600 block mt-2 font-medium;
+.error-feedback {
+    @apply text-red-600 block font-medium;
 }
 
 /** Buttons **/

@@ -1,6 +1,6 @@
 export interface IBaseEntity {
     id: string
-    createdAt: Date
+    createdAt: string
 }
 
 export interface IShareable { 

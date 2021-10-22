@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Card: FC<{
     title: string;
-    time: Date;
+    time: string;
     image?: string;
     link: string;
 }> = ({ title, time, image, link }) => (
@@ -20,7 +20,7 @@ const Card: FC<{
                 dateTime={time.toString()}
                 className="text-gray-500 font-normal text-xs leading-none"
             >
-                {time.toLocaleDateString("en-US", {
+                {new Date(time).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "short",
                     day: "2-digit",
