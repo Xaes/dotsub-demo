@@ -6,6 +6,7 @@ import { Switch, Route, Redirect } from "react-router";
 import PageHeader from "../../components/page-header";
 import CollectionIcon from "@heroicons/react/outline/CollectionIcon";
 import PhotographIcon from "@heroicons/react/outline/PhotographIcon";
+import ImageList from "../../components/image-list";
 
 const Home: FC = () => (
     <section data-testid="home-section">
@@ -35,7 +36,7 @@ const Home: FC = () => (
                     <Route
                         exact
                         path={Config.LINKS.EXPLORE_BY_IMAGES}
-                        render={() => <h1>By image</h1>}
+                        render={() => <ImageList />}
                     />
                     <Route
                         path="*"

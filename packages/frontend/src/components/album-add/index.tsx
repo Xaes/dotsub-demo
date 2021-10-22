@@ -1,38 +1,39 @@
+import { toBase64 } from "../../utils";
 import DropPhotos from "../drop-photos";
 import { useDispatch } from "react-redux";
 import useForm from "../../hooks/useForm";
+import UploadPreview from "../upload-preview";
+import { addPhoto } from "../../redux/slices/photo";
 import { addAlbum } from "../../redux/slices/album";
 import React, { FC, useState, useEffect } from "react";
-import UploadPreview from "../upload-preview";
 
 const AlbumAdd: FC = () => {
-
-    const [files, setFiles] = useState<File[]>([]);
+    const [files, setFiles] = useState<{ file: File; data: string }[]>([]);
     const dispatch = useDispatch();
 
-    useEffect(
-        () => () => {
-            files.forEach((file: any) => URL.revokeObjectURL(file.preview));
-        },
-        [files]
-    );
+    const onDrop = async (acceptedFiles: any[]) => {
+        const newFiles = acceptedFiles.map(async (file) => ({
+            file: file,
+            data: await toBase64(new Blob([file])),
+        }));
 
-    const onDrop = (acceptedFiles: any[]) => {
-        setFiles(prevState =>
-            prevState.concat(acceptedFiles.map((file) => ({
-                ...file,
-                preview: URL.createObjectURL(file),
-            })))
-        );
-    }
+        await Promise.all(newFiles).then((files) => {
+            setFiles((prevState) => {
+                return prevState.concat(files);
+            });
+        });
+    };
+
+    /*eslint-disable*/
+    console.log(files);
 
     const onFileDelete = (index: number) => {
-        setFiles(prevState => {
+        setFiles((prevState) => {
             const newState = Array.from(prevState);
             newState.splice(index, 1);
             return newState;
         });
-    }
+    };
 
     const { registerValue, submit, items } = useForm({
         items: {
@@ -42,11 +43,24 @@ const AlbumAdd: FC = () => {
                 validate: { fn: ({ value }) => (value as string).length > 5 },
             },
         },
-        onSubmit: async ({ items }) => {
-            await dispatch(
+        onSubmit: ({ items }) => {
+            files.forEach((file) => {
+                dispatch(
+                    addPhoto({
+                        photo: {
+                            tag: "something idk",
+                            name: file.file.name,
+                            extension: file.file.type,
+                            size: file.file.size,
+                        },
+                        photoData: { data: file.data },
+                    })
+                );
+            });
+            dispatch(
                 addAlbum({
                     name: items.name.value as string,
-                    photos: [],
+                    photoIds: [],
                 })
             );
         },
@@ -87,9 +101,7 @@ const AlbumAdd: FC = () => {
                         />
                     </label>
                     {items.name.hasError && (
-                        <span className="error-feedback mt-2">
-                            Email is invalid.
-                        </span>
+                        <span className="error-feedback mt-2">Email is invalid.</span>
                     )}
                 </div>
                 <button type="submit" className="primary-button mt-4" onClick={submit}>
@@ -98,7 +110,10 @@ const AlbumAdd: FC = () => {
             </form>
             <div className="col-span-6">
                 <DropPhotos onDrop={onDrop} />
-                <UploadPreview files={files} onFileDelete={onFileDelete} />
+                <UploadPreview
+                    images={files.map((f) => f.data)}
+                    onFileDelete={onFileDelete}
+                />
             </div>
         </div>
     );

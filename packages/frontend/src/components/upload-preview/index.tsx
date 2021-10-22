@@ -2,13 +2,12 @@ import React, { FC } from "react";
 import TrashIcon from "@heroicons/react/outline/TrashIcon";
 
 const UploadPreview: FC<{
-    files?: File[],
-    onFileDelete?: (index: number) => void
-}> = ({ files, onFileDelete }) => {
-    
-    const thumbs = files?.map((file: any, index) => (
-        <div key={file.path} className="relative">
-            <img  src={(file as any).preview} className="w-full h-64 object-cover rounded-2xl" />
+    images: string[];
+    onFileDelete?: (index: number) => void;
+}> = ({ images, onFileDelete }) => {
+    const thumbs = images?.map((image, index) => (
+        <div key={image} className="relative">
+            <img src={image} className="w-full h-64 object-cover rounded-2xl" />
             {onFileDelete && (
                 <button
                     type="button"
@@ -21,13 +20,10 @@ const UploadPreview: FC<{
         </div>
     ));
 
-    return files && files.length > 0 ? (
-        <div className="grid grid-cols-3 mt-8 gap-12">
-            {thumbs}
-        </div>
-    ): null;
-
-}
+    return images && images.length > 0 ? (
+        <div className="grid grid-cols-3 mt-8 gap-12">{thumbs}</div>
+    ) : null;
+};
 
 UploadPreview.displayName = "UploadPreview";
 export default UploadPreview;

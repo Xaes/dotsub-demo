@@ -4,9 +4,11 @@ import {
     EntityParams,
     IAlbum,
     IPhoto,
+    IPhotoData,
     IService,
     IShareable,
 } from "@dotsub-demo/common/common";
+import PhotoDataRepo from "./photo-data-repo";
 
 export class Service implements IService {
     private static _singleton: IService;
@@ -26,7 +28,7 @@ export class Service implements IService {
     getPhotosByAlbum(albumId: string): Promise<IPhoto[]> {
         return AlbumRepo.singleton.getById(albumId).then((a) =>
             PhotoRepo.singleton.getAll((photo: IPhoto) => {
-                return a.photos.includes(photo.id);
+                return a.photoIds.includes(photo.id);
             })
         );
     }
@@ -39,8 +41,15 @@ export class Service implements IService {
         return PhotoRepo.singleton.getById(photoId);
     }
 
-    addPhoto(photo: EntityParams<IPhoto>): Promise<IPhoto> {
-        return PhotoRepo.singleton.save(photo);
+    async addPhoto(
+        photo: Omit<EntityParams<IPhoto>, "dataId">,
+        data: EntityParams<IPhotoData>
+    ): Promise<IPhoto> {
+        const { id: photoDataId } = await PhotoDataRepo.singleton.save(data);
+        return PhotoRepo.singleton.save({
+            ...photo,
+            dataId: photoDataId,
+        });
     }
 
     addAlbum(album: EntityParams<IAlbum>): Promise<IAlbum> {
@@ -61,6 +70,11 @@ export class Service implements IService {
 
     includePhotoInAlbum(photoId: string, albumId: string): Promise<IAlbum> {
         throw new Error("Method not implemented.");
+    }
+
+    async downloadImage(photoDataId: string): Promise<string> {
+        const photoData = await PhotoDataRepo.singleton.getById(photoDataId);
+        return photoData.data;
     }
 
     static get singleton(): Service {

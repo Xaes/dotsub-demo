@@ -3,7 +3,6 @@ import { useDropzone } from "react-dropzone";
 import UploadIcon from "@heroicons/react/outline/UploadIcon";
 
 const DropPhotos: FC<{ onDrop: <T extends File>(files: T[]) => void }> = ({ onDrop }) => {
-
     const [error, setError] = useState<string | undefined>();
     const acceptedFiles = ["image/jpeg", "image/png"];
 
@@ -11,7 +10,7 @@ const DropPhotos: FC<{ onDrop: <T extends File>(files: T[]) => void }> = ({ onDr
         onDrop,
         accept: acceptedFiles,
         onDropRejected: () => setError("Invalid selected files."),
-        onDropAccepted: () => setError(undefined)
+        onDropAccepted: () => setError(undefined),
     });
 
     return (
@@ -37,11 +36,7 @@ const DropPhotos: FC<{ onDrop: <T extends File>(files: T[]) => void }> = ({ onDr
                     </div>
                 </div>
             </form>
-            {error && (
-                <span className="error-feedback mt-4">
-                    {error}
-                </span>
-            )}
+            {error && <span className="error-feedback mt-4">{error}</span>}
         </React.Fragment>
     );
 };
