@@ -11,7 +11,7 @@ const AlbumList: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchAlbums())
+        dispatch(fetchAlbums());
     }, []);
 
     const albumItems = albums.map((album) => (

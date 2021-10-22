@@ -47,11 +47,11 @@ export class Service implements IService {
         return AlbumRepo.singleton.save(album);
     }
 
-    deleteAlbum(albumId: string): Promise<void>{
+    deleteAlbum(albumId: string): Promise<void> {
         return AlbumRepo.singleton.delete(albumId);
     }
 
-    deletePhoto(photoId: string): Promise<void>{
+    deletePhoto(photoId: string): Promise<void> {
         return PhotoRepo.singleton.delete(photoId);
     }
 

@@ -28,7 +28,7 @@ export default class IndexedDBRepository<T extends IBaseEntity>
             id: this._id_gen(),
             createdAt: new Date(),
         };
-        return this._store.setItem(fullEntity.id, fullEntity);
+        return await this._store.setItem(fullEntity.id, fullEntity);
     }
 
     async getById(id: string): Promise<T> {

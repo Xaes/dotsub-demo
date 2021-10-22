@@ -103,8 +103,12 @@ form .form-group .error-feedback {
     @apply fill-current h-10 w-10 rounded-full flex items-center justify-center text-white bg-primary hover:bg-black dark:hover:bg-white dark:hover:text-black shadow-md hover:shadow-2xl transition-all;
 }
 
+.rounded-button.danger {
+    @apply bg-red-600;
+}
+
 .primary-button {
-    @apply py-3 px-5 inline-block font-bold text-sm rounded-xl bg-primary text-white hover:bg-primary-light transition-all shadow-md hover:shadow-2xl;
+    @apply py-3 px-5 inline-block font-bold text-sm rounded-xl bg-primary text-white hover:bg-primary-light hover:text-white transition-all shadow-md hover:shadow-2xl;
 }
 
 /** Utils **/

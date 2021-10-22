@@ -8,8 +8,21 @@ export const addAlbum = createAsyncThunk<IAlbum, EntityParams<IAlbum>>(
     async (album) => Service.singleton.addAlbum(album)
 );
 
-export const fetchAlbums = createAsyncThunk<IAlbum[]>("Album/FetchAlbum", async () =>
+export const fetchAlbums = createAsyncThunk<IAlbum[]>("Albums/FetchAlbum", async () =>
     Service.singleton.getAllAlbums()
+);
+
+export const fetchAlbum = createAsyncThunk<IAlbum, string>(
+    "Album/FetchAlbum",
+    async (id: string) => Service.singleton.getAlbumById(id)
+);
+
+export const deleteAlbum = createAsyncThunk<string, string>(
+    "Album/DeleteAlbum",
+    async (albumId) => {
+        await Service.singleton.deleteAlbum(albumId);
+        return albumId;
+    }
 );
 
 export const AlbumAdapter = createEntityAdapter<IAlbum>({
@@ -31,6 +44,14 @@ export const AlbumSlice = createSlice({
         });
         builder.addCase(fetchAlbums.fulfilled, (state, { payload }) => {
             AlbumAdapter.addMany(state, payload);
+            state.status = "finished";
+        });
+        builder.addCase(fetchAlbum.fulfilled, (state, { payload }) => {
+            AlbumAdapter.addOne(state, payload);
+            state.status = "finished";
+        });
+        builder.addCase(deleteAlbum.fulfilled, (state, { payload }) => {
+            AlbumAdapter.removeOne(state, payload);
             state.status = "finished";
         });
     },
