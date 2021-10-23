@@ -7,6 +7,7 @@ import { RootState } from "../../redux/slices";
 import { IAlbum } from "../../../../@types/common";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPhoto, selectById } from "../../redux/slices/photo";
+import PhotographIcon from "@heroicons/react/outline/PhotographIcon";
 
 const Card: FC<IAlbum> = ({ id, name, createdAt, photoIds }) => {
     const dispatch = useDispatch();
@@ -22,12 +23,19 @@ const Card: FC<IAlbum> = ({ id, name, createdAt, photoIds }) => {
     const image = useImage(firstPhoto?.dataId);
 
     return (
-        <Link to={Config.LINKS.ALBUM.replace(":albumId", id)}>
+        <Link
+            className="relative group"
+            to={Config.LINKS.ALBUM.replace(":albumId", id)}
+        >
+            <div className="px-3 py-1 absolute top-8 left-8 flex items-center rounded-xl bg-primary">
+                <PhotographIcon className="h-5 w-5 mr-2 text-white" />
+                <span className="text-white">{photoIds.length}</span>
+            </div>
             <div className="w-full h-96 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all">
                 <ImageHolder image={image} alt={`${name} - Album`} />
             </div>
             <div className="p-8">
-                <h6 className="text-black dark:text-white leading-none">{name}</h6>
+                <h6 className="transition-colors text-black dark:text-white leading-none group-hover:text-primary">{name}</h6>
                 <time
                     dateTime={createdAt}
                     className="text-gray-500 font-normal text-xs leading-none"
