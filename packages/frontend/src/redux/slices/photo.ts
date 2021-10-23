@@ -2,7 +2,7 @@ import { RootState, GenericState } from ".";
 import defaultMatchers from "./defaultMatchers";
 import { Service } from "../../service/service";
 import { EntityParams, IPhoto, IPhotoData } from "@dotsub-demo/common/common";
-import { createSlice, createEntityAdapter, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 
 export interface AddPhotoParms {
     photo: Omit<EntityParams<IPhoto>, "dataId">;
@@ -14,7 +14,11 @@ export const addPhoto = createAsyncThunk<IPhoto, AddPhotoParms>(
     async ({ photo, photoData }) => Service.singleton.addPhoto(photo, photoData)
 );
 
-export const fetchPhotos = createAsyncThunk<IPhoto[]>("Photo/FetchPhotos", async () =>
+export const fetchPhotosByAlbum = createAsyncThunk<IPhoto[], string>("Photo/FetchPhotos", async (albumId) =>
+    Service.singleton.getPhotosByAlbum(albumId)
+);
+
+export const fetchPhotos = createAsyncThunk<IPhoto[]>("Photo/FetchPhotosByAlbum", async () =>
     Service.singleton.getAllPhotos()
 );
 
@@ -35,7 +39,7 @@ export const PhotoAdaper = createEntityAdapter<IPhoto>({
     selectId: (model) => model.id,
 });
 
-export const PhotoInitialState = PhotoAdaper.getInitialState<GenericState>({
+export const PhotoInitialState = PhotoAdaper.getInitialState<GenericState<IPhoto>>({
     status: "initialized",
 });
 
@@ -52,8 +56,13 @@ export const PhotoSlice = createSlice({
             PhotoAdaper.addMany(state, payload);
             state.status = "finished";
         });
+        builder.addCase(fetchPhotosByAlbum.fulfilled, (state, { payload }) => {
+            PhotoAdaper.addMany(state, payload);
+            state.status = "finished";
+        });
         builder.addCase(fetchPhoto.fulfilled, (state, { payload }) => {
             PhotoAdaper.addOne(state, payload);
+            state.selectedEntity = payload.id;
             state.status = "finished";
         });
         builder.addCase(deletePhoto.fulfilled, (state, { payload }) => {
@@ -66,5 +75,11 @@ export const PhotoSlice = createSlice({
 
 export const { selectById, selectIds, selectEntities, selectAll, selectTotal } =
     PhotoAdaper.getSelectors<RootState>((state) => state.Photo);
+
+export const selectPhotosByAlbum = createSelector(
+    selectAll,
+    ({ Album }: RootState) => Album.selectedEntity ? Album.entities[Album.selectedEntity] : undefined,
+    (photos, album) => album ? photos.filter(p => album.photoIds.includes(p.id)) : undefined
+);
 
 export default PhotoSlice.reducer;

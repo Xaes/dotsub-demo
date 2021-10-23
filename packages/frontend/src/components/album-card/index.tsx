@@ -27,9 +27,9 @@ const Card: FC<IAlbum> = ({ id, name, createdAt, photoIds }) => {
             className="relative group"
             to={Config.LINKS.ALBUM.replace(":albumId", id)}
         >
-            <div className="px-3 py-1 absolute top-8 left-8 flex items-center rounded-xl bg-primary">
-                <PhotographIcon className="h-5 w-5 mr-2 text-white" />
-                <span className="text-white">{photoIds.length}</span>
+            <div className="px-3 py-1.5 absolute top-8 left-8 flex items-center rounded-xl bg-primary">
+                <PhotographIcon className="h-4 w-4 mr-2 text-white" />
+                <span className="text-white text-sm">{photoIds.length}</span>
             </div>
             <div className="w-full h-96 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all">
                 <ImageHolder image={image} alt={`${name} - Album`} />

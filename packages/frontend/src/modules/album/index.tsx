@@ -1,25 +1,34 @@
+import Config from "../../config";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router";
+import Empty from "../../components/empty";
 import React, { FC, useEffect } from "react";
 import { RootState } from "../../redux/slices";
+import ImageCard from "../../components/image-card";
 import PageHeader from "../../components/page-header";
 import { selectById } from "../../redux/slices/album";
 import { useSelector, useDispatch } from "react-redux";
 import TrashIcon from "@heroicons/react/outline/TrashIcon";
 import { fetchAlbum, deleteAlbum } from "../../redux/slices/album";
+import { fetchPhotosByAlbum, selectPhotosByAlbum } from "../../redux/slices/photo";
 
 const Album: FC = () => {
     const dispatch = useDispatch();
     const { albumId } = useParams<{ albumId: string }>();
     const album = useSelector((state: RootState) => selectById(state, albumId));
+    const photos = useSelector(selectPhotosByAlbum);
 
     useEffect(() => {
         dispatch(fetchAlbum(albumId));
-    });
+        dispatch(fetchPhotosByAlbum(albumId));
+    }, [albumId, album]);
+
+    const photosItems = photos?.map((image) => <ImageCard key={image.id} {...image} />);
 
     return (
         <section data-testid="album-section">
             <PageHeader title={`Album: ${album?.name}`} subtitle="Browse pictures" />
-            <div className="flex justify-end">
+            <div className="flex justify-end mb-16">
                 <button
                     type="button"
                     role="button"
@@ -29,6 +38,15 @@ const Album: FC = () => {
                     <TrashIcon className="h-5 w-5" />
                 </button>
             </div>
+            {photosItems && photosItems.length > 0 ? (
+                <div className="grid grid-cols-4 gap-8">{photosItems}</div>
+            ) : (
+                <Empty>
+                    <Link to={Config.LINKS.NEW_ALBUM} className="primary-button">
+                        Create Album
+                    </Link>
+                </Empty>
+            )}
         </section>
     );
 };

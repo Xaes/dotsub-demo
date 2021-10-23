@@ -30,7 +30,7 @@ export const AlbumAdapter = createEntityAdapter<IAlbum>({
     selectId: (model) => model.id,
 });
 
-export const AlbumInitalState = AlbumAdapter.getInitialState<GenericState>({
+export const AlbumInitalState = AlbumAdapter.getInitialState<GenericState<IAlbum>>({
     status: "initialized",
 });
 
@@ -49,6 +49,7 @@ export const AlbumSlice = createSlice({
         });
         builder.addCase(fetchAlbum.fulfilled, (state, { payload }) => {
             AlbumAdapter.addOne(state, payload);
+            state.selectedEntity = payload.id;
             state.status = "finished";
         });
         builder.addCase(deleteAlbum.fulfilled, (state, { payload }) => {

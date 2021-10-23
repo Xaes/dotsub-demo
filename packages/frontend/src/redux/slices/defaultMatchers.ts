@@ -7,7 +7,7 @@ import {
     EntityState,
 } from "@reduxjs/toolkit";
 
-export default <T>(builder: ActionReducerMapBuilder<EntityState<T> & GenericState>) => {
+export default <T>(builder: ActionReducerMapBuilder<EntityState<T> & GenericState<T>>) => {
     builder.addMatcher(isRejected, (state) => {
         state.status = "finished";
         state.error = "An error has ocurred.";
