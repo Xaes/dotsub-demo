@@ -1,34 +1,47 @@
-import React, { FC } from "react";
+import Config from "../../config";
 import { Link } from "react-router-dom";
+import ImageHolder from "../image-holder";
+import useImage from "../../hooks/useImage";
+import React, { FC, useEffect } from "react";
+import { RootState } from "../../redux/slices";
+import { IAlbum } from "../../../../@types/common";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPhoto, selectById } from "../../redux/slices/photo";
 
-const Card: FC<{
-    title: string;
-    time: string;
-    image?: string;
-    link: string;
-}> = ({ title, time, image, link }) => (
-    <Link
-        to={link}
-        className={`shadow-md hover:shadow-2xl rounded-md bg-white-1 dark:bg-black-2 border border-white-1 dark:border-black-2 dark:hover:bg-transparent ${
-            image ? "background" : "background-pattern"
-        }`}
-    >
-        <div className="background w-full h-64"></div>
-        <div className="p-8">
-            <h6 className="text-black dark:text-white leading-none">{title}</h6>
-            <time
-                dateTime={time.toString()}
-                className="text-gray-500 font-normal text-xs leading-none"
-            >
-                {new Date(time).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "2-digit",
-                })}
-            </time>
-        </div>
-    </Link>
-);
+const Card: FC<IAlbum> = ({ id, name, createdAt, photoIds }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (photoIds[0]) {
+            const fetch = async () => await dispatch(fetchPhoto(photoIds[0]));
+            fetch();
+        }
+    }, []);
+
+    const firstPhoto = useSelector((state: RootState) => selectById(state, photoIds[0]));
+    const image = useImage(firstPhoto?.dataId);
+
+    return (
+        <Link to={Config.LINKS.ALBUM.replace(":albumId", id)}>
+            <div className="w-full h-96 rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all">
+                <ImageHolder image={image} alt={`${name} - Album`} />
+            </div>
+            <div className="p-8">
+                <h6 className="text-black dark:text-white leading-none">{name}</h6>
+                <time
+                    dateTime={createdAt}
+                    className="text-gray-500 font-normal text-xs leading-none"
+                >
+                    {new Date(createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                    })}
+                </time>
+            </div>
+        </Link>
+    );
+};
 
 Card.displayName = "Card";
 export default Card;

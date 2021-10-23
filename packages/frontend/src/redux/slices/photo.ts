@@ -40,7 +40,7 @@ export const PhotoInitialState = PhotoAdaper.getInitialState<GenericState>({
 });
 
 export const PhotoSlice = createSlice({
-    name: "Album",
+    name: "Photo",
     initialState: PhotoInitialState,
     reducers: {},
     extraReducers: (builder) => {

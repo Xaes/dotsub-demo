@@ -8,8 +8,8 @@ import TrashIcon from "@heroicons/react/outline/TrashIcon";
 import { fetchAlbum, deleteAlbum } from "../../redux/slices/album";
 
 const Album: FC = () => {
-    const { albumId } = useParams<{ albumId: string }>();
     const dispatch = useDispatch();
+    const { albumId } = useParams<{ albumId: string }>();
     const album = useSelector((state: RootState) => selectById(state, albumId));
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-import Card from "../album-card";
+import AlbumCard from "../album-card";
 import Empty from "../empty";
 import Config from "../../config";
 import React, { FC, useEffect } from "react";
@@ -14,14 +14,7 @@ const AlbumList: FC = () => {
         dispatch(fetchAlbums());
     }, []);
 
-    const albumItems = albums.map((album) => (
-        <Card
-            key={album.id}
-            title={album.name}
-            time={album.createdAt}
-            link={Config.LINKS.ALBUM.replace(":albumId", album.id)}
-        />
-    ));
+    const albumItems = albums.map((album) => <AlbumCard key={album.id} {...album} />);
 
     return albums.length > 0 ? (
         <div className="grid grid-cols-3 gap-8">{albumItems}</div>
