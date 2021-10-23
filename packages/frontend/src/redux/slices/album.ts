@@ -30,7 +30,7 @@ export const AlbumAdapter = createEntityAdapter<IAlbum>({
     selectId: (model) => model.id,
 });
 
-export const AlbumInitalState = AlbumAdapter.getInitialState<GenericState<IAlbum>>({
+export const AlbumInitalState = AlbumAdapter.getInitialState<GenericState>({
     status: "initialized",
 });
 

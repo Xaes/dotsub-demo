@@ -1,6 +1,5 @@
 import React, { FC, useContext } from "react";
 import { Colors, Context } from "../../context/color-scheme";
-import { ReactComponent } from "../../svg/pattern.svg";
 
 const ImageHolder: FC<{
     image?: string;

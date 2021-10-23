@@ -28,7 +28,12 @@ const Album: FC = () => {
     return (
         <section data-testid="album-section">
             <PageHeader title={`Album: ${album?.name}`} subtitle="Browse pictures" />
-            <div className="flex justify-end mb-16">
+            <div className="flex justify-between items-center mb-16">
+                <h6 className="text-black dark:text-white font-medium">
+                    A collection of
+                    <span className="text-white bg-primary mx-3 text-md w-9 h-9 rounded-full inline-flex items-center justify-center">{album?.photoIds.length || 0}</span>
+                    photos
+                 </h6>
                 <button
                     type="button"
                     role="button"

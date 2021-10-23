@@ -39,7 +39,7 @@ export const PhotoAdaper = createEntityAdapter<IPhoto>({
     selectId: (model) => model.id,
 });
 
-export const PhotoInitialState = PhotoAdaper.getInitialState<GenericState<IPhoto>>({
+export const PhotoInitialState = PhotoAdaper.getInitialState<GenericState>({
     status: "initialized",
 });
 

@@ -1,11 +1,10 @@
-import Card from "../album-card";
 import Empty from "../empty";
 import Config from "../../config";
+import ImageCard from "../image-card";
+import { Link } from "react-router-dom";
 import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { fetchPhotos, selectAll } from "../../redux/slices/photo";
-import ImageCard from "../image-card";
 
 const ImageList: FC = () => {
     const images = useSelector(selectAll);
