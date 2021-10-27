@@ -26,11 +26,11 @@ module.exports = {
             },
             backgroundColor: {
                 ...primaryPallette,
-                ...grayPallette
+                ...grayPallette,
             },
             fontFamily: {
                 sans: ['"DM Sans"', "Helvetica", "Arial", "sans-serif"],
-            }
+            },
         },
         container: {
             center: true,

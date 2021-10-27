@@ -1,9 +1,14 @@
 import { RootState, GenericState } from ".";
 import { StateStatus } from "./state-status";
-import defaultMatchers from "./defaultMatchers";
 import { Service } from "../../service/service";
 import { EntityParams, IPhoto, IPhotoData } from "@dotsub-demo/common/common";
-import { createSlice, createEntityAdapter, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
+import {
+    createSlice,
+    createEntityAdapter,
+    createAsyncThunk,
+    createSelector,
+    isAnyOf,
+} from "@reduxjs/toolkit";
 
 export interface AddPhotoParms {
     photo: Omit<EntityParams<IPhoto>, "dataId">;
@@ -15,12 +20,14 @@ export const addPhoto = createAsyncThunk<IPhoto, AddPhotoParms>(
     async ({ photo, photoData }) => Service.singleton.addPhoto(photo, photoData)
 );
 
-export const fetchPhotosByAlbum = createAsyncThunk<IPhoto[], string>("Photo/FetchPhotos", async (albumId) =>
-    Service.singleton.getPhotosByAlbum(albumId)
+export const fetchPhotosByAlbum = createAsyncThunk<IPhoto[], string>(
+    "Photo/FetchPhotos",
+    async (albumId) => Service.singleton.getPhotosByAlbum(albumId)
 );
 
-export const fetchPhotos = createAsyncThunk<IPhoto[]>("Photo/FetchPhotosByAlbum", async () =>
-    Service.singleton.getAllPhotos()
+export const fetchPhotos = createAsyncThunk<IPhoto[]>(
+    "Photo/FetchPhotosByAlbum",
+    async () => Service.singleton.getAllPhotos()
 );
 
 export const fetchPhoto = createAsyncThunk<IPhoto, string>(
@@ -49,28 +56,40 @@ export const PhotoSlice = createSlice({
     initialState: PhotoInitialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(addPhoto.fulfilled, (state, { payload }) => {
-            PhotoAdaper.addOne(state, payload);
-            state.status = StateStatus.FINISHED;
-        });
-        builder.addCase(fetchPhotos.fulfilled, (state, { payload }) => {
-            PhotoAdaper.addMany(state, payload);
-            state.status = StateStatus.FINISHED;
-        });
-        builder.addCase(fetchPhotosByAlbum.fulfilled, (state, { payload }) => {
-            PhotoAdaper.addMany(state, payload);
-            state.status = StateStatus.FINISHED;
-        });
-        builder.addCase(fetchPhoto.fulfilled, (state, { payload }) => {
-            PhotoAdaper.addOne(state, payload);
-            state.selectedEntity = payload.id;
-            state.status = StateStatus.FINISHED;
-        });
-        builder.addCase(deletePhoto.fulfilled, (state, { payload }) => {
-            PhotoAdaper.removeOne(state, payload);
-            state.status = StateStatus.FINISHED;
-        });
-        defaultMatchers(builder);
+        builder
+            .addCase(addPhoto.fulfilled, (state, { payload }) => {
+                PhotoAdaper.addOne(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(fetchPhotos.fulfilled, (state, { payload }) => {
+                PhotoAdaper.addMany(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(fetchPhotosByAlbum.fulfilled, (state, { payload }) => {
+                PhotoAdaper.addMany(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(fetchPhoto.fulfilled, (state, { payload }) => {
+                PhotoAdaper.addOne(state, payload);
+                state.selectedEntity = payload.id;
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(deletePhoto.fulfilled, (state, { payload }) => {
+                PhotoAdaper.removeOne(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addMatcher(
+                isAnyOf(
+                    addPhoto.pending,
+                    fetchPhotos.pending,
+                    fetchPhotosByAlbum.pending,
+                    fetchPhoto.pending,
+                    deletePhoto.pending
+                ),
+                (state) => {
+                    state.status = StateStatus.LOADING;
+                }
+            );
     },
 });
 
@@ -79,8 +98,10 @@ export const { selectById, selectIds, selectEntities, selectAll, selectTotal } =
 
 export const selectPhotosByAlbum = createSelector(
     selectAll,
-    ({ Album }: RootState) => Album.selectedEntity ? Album.entities[Album.selectedEntity] : undefined,
-    (photos, album) => album ? photos.filter(p => album.photoIds.includes(p.id)) : undefined
+    ({ Album }: RootState) =>
+        Album.selectedEntity ? Album.entities[Album.selectedEntity] : undefined,
+    (photos, album) =>
+        album ? photos.filter((p) => album.photoIds.includes(p.id)) : undefined
 );
 
 export default PhotoSlice.reducer;

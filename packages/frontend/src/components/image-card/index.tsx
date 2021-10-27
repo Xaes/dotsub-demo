@@ -23,7 +23,7 @@ const ImageCard: FC<IPhoto> = ({ tag, dataId, id, name, createdAt }) => {
             className={`shadow-md rounded-2xl overflow-hidden hover:shadow-2xl bg-white-1 dark:bg-black-2 dark:hover:bg-transparent`}
         >
             <div className="w-full h-64">
-                <ImageHolder alt={`${name} - ${tag}`} image={image}/>
+                <ImageHolder alt={`${name} - ${tag}`} image={image} />
             </div>
             <div className="p-8 border border-white-1 dark:border-black-2 rounded-b-2xl">
                 <h6 className="text-black dark:text-white leading-none">{name}</h6>

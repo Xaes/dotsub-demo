@@ -1,9 +1,13 @@
 import { RootState, GenericState } from ".";
 import { StateStatus } from "./state-status";
 import { Service } from "../../service/service";
-import defaultMatchers from "./defaultMatchers";
 import { EntityParams, IAlbum } from "@dotsub-demo/common/common";
-import { createSlice, createEntityAdapter, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+    createSlice,
+    createEntityAdapter,
+    createAsyncThunk,
+    isAnyOf,
+} from "@reduxjs/toolkit";
 
 export const addAlbum = createAsyncThunk<IAlbum, EntityParams<IAlbum>>(
     "Album/AddAlbum",
@@ -40,24 +44,35 @@ export const AlbumSlice = createSlice({
     initialState: AlbumInitalState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(addAlbum.fulfilled, (state, { payload }) => {
-            AlbumAdapter.addOne(state, payload);
-            state.status = StateStatus.FINISHED;
-        });
-        builder.addCase(fetchAlbums.fulfilled, (state, { payload }) => {
-            AlbumAdapter.addMany(state, payload);
-            state.status = StateStatus.FINISHED;
-        });
-        builder.addCase(fetchAlbum.fulfilled, (state, { payload }) => {
-            AlbumAdapter.addOne(state, payload);
-            state.selectedEntity = payload.id;
-            state.status = StateStatus.FINISHED;
-        });
-        builder.addCase(deleteAlbum.fulfilled, (state, { payload }) => {
-            AlbumAdapter.removeOne(state, payload);
-            state.status = StateStatus.FINISHED;
-        });
-        defaultMatchers(builder);
+        builder
+            .addCase(addAlbum.fulfilled, (state, { payload }) => {
+                AlbumAdapter.addOne(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(fetchAlbums.fulfilled, (state, { payload }) => {
+                AlbumAdapter.addMany(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(fetchAlbum.fulfilled, (state, { payload }) => {
+                AlbumAdapter.addOne(state, payload);
+                state.selectedEntity = payload.id;
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(deleteAlbum.fulfilled, (state, { payload }) => {
+                AlbumAdapter.removeOne(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addMatcher(
+                isAnyOf(
+                    fetchAlbum.pending,
+                    fetchAlbums.pending,
+                    fetchAlbum.pending,
+                    deleteAlbum.pending
+                ),
+                (state) => {
+                    state.status = StateStatus.LOADING;
+                }
+            );
     },
 });
 

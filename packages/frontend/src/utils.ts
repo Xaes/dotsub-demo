@@ -2,7 +2,10 @@ import window from "global/window";
 import { BrowserRouter } from "react-router-dom";
 import { render, RenderResult, Queries } from "@testing-library/react";
 
-export const renderWithRouter = (element: JSX.Element, route: string | URL): RenderResult<Queries, HTMLElement> => {
+export const renderWithRouter = (
+    element: JSX.Element,
+    route: string | URL
+): RenderResult<Queries, HTMLElement> => {
     window.history.pushState({}, "Test Page", route);
     return render(element, { wrapper: BrowserRouter });
 };

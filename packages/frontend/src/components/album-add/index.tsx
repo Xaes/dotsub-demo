@@ -12,8 +12,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { StateStatus } from "../../redux/slices/state-status";
 
 const AlbumAdd: FC = () => {
-    const albumStatus = useSelector<RootState>(state => state.Album.status);
-    const photoStatus = useSelector<RootState>(state => state.Photo.status);
+    const albumStatus = useSelector<RootState, StateStatus>(
+        (state) => state.Album.status
+    );
+    const photoStatus = useSelector<RootState, StateStatus>(
+        (state) => state.Photo.status
+    );
     const [files, setFiles] = useState<{ file: File; data: string }[]>([]);
     const dispatch = useDispatch<AppDispatch>();
 
@@ -62,7 +66,7 @@ const AlbumAdd: FC = () => {
                 return id;
             });
 
-            await Promise.all(photosIds).then((photoIds) => {
+            await Promise.all(photosIds).then(async (photoIds) => {
                 dispatch(
                     addAlbum({
                         name: items.name.value as string,
@@ -74,10 +78,14 @@ const AlbumAdd: FC = () => {
     });
 
     /* eslint-disable */
-    console.log(albumStatus, photoStatus)
+    console.log(albumStatus, photoStatus);
 
     return (
-        <Loading loading={albumStatus === StateStatus.LOADING || photoStatus === StateStatus.LOADING}>
+        <Loading
+            loading={
+                albumStatus === StateStatus.LOADING || photoStatus === StateStatus.LOADING
+            }
+        >
             <div className="grid grid-cols-10 gap-24">
                 <form
                     role="form"
@@ -92,12 +100,15 @@ const AlbumAdd: FC = () => {
                                 placeholder="Name..."
                                 type="text"
                                 value={items.name.value as string}
-                                onChange={({ target }) => registerValue("name", target.value)}
+                                onChange={({ target }) =>
+                                    registerValue("name", target.value)
+                                }
                             />
                         </label>
                         {items.name.hasError && (
                             <span className="error-feedback mt-2">
-                                Name is required. Name needs to be longer than 5 characters.
+                                Name is required. Name needs to be longer than 5
+                                characters.
                             </span>
                         )}
                     </div>
@@ -108,14 +119,20 @@ const AlbumAdd: FC = () => {
                                 placeholder="Name..."
                                 type="text"
                                 value={items.name.value as string}
-                                onChange={({ target }) => registerValue("name", target.value)}
+                                onChange={({ target }) =>
+                                    registerValue("name", target.value)
+                                }
                             />
                         </label>
                         {items.name.hasError && (
                             <span className="error-feedback mt-2">Email is invalid.</span>
                         )}
                     </div>
-                    <button type="submit" className="primary-button mt-4" onClick={submit}>
+                    <button
+                        type="submit"
+                        className="primary-button mt-4"
+                        onClick={submit}
+                    >
                         Create
                     </button>
                 </form>

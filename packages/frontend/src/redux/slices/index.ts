@@ -5,7 +5,7 @@ import { StateStatus } from "./state-status";
 export interface GenericState {
     error?: string;
     status: StateStatus;
-    selectedEntity?: string
+    selectedEntity?: string;
 }
 
 const RootReducer = combineReducers({

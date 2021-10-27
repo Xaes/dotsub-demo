@@ -23,10 +23,7 @@ const Card: FC<IAlbum> = ({ id, name, createdAt, photoIds }) => {
     const image = useImage(firstPhoto?.dataId);
 
     return (
-        <Link
-            className="relative group"
-            to={Config.LINKS.ALBUM.replace(":albumId", id)}
-        >
+        <Link className="relative group" to={Config.LINKS.ALBUM.replace(":albumId", id)}>
             <div className="px-3 py-1.5 absolute top-8 left-8 flex items-center rounded-xl bg-primary">
                 <PhotographIcon className="h-4 w-4 mr-2 text-white" />
                 <span className="text-white text-sm font-bold">{photoIds.length}</span>
@@ -35,7 +32,9 @@ const Card: FC<IAlbum> = ({ id, name, createdAt, photoIds }) => {
                 <ImageHolder image={image} alt={`${name} - Album`} />
             </div>
             <div className="p-8">
-                <h6 className="transition-colors text-black dark:text-white leading-none group-hover:text-primary">{name}</h6>
+                <h6 className="transition-colors text-black dark:text-white leading-none group-hover:text-primary">
+                    {name}
+                </h6>
                 <time
                     dateTime={createdAt}
                     className="text-gray-500 font-normal text-xs leading-none"
