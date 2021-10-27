@@ -28,11 +28,13 @@ export default class IndexedDBRepository<T extends IBaseEntity>
             id: this._id_gen(),
             createdAt: new Date().toString(),
         };
+        await new Promise((resolve) => setTimeout(resolve, 500));
         return await this._store.setItem<T>(fullEntity.id, fullEntity);
     }
 
     async getById(id: string): Promise<T> {
         const entity = await this._store.getItem<T>(id.toString());
+        await new Promise((resolve) => setTimeout(resolve, 100));
         if (entity) return entity;
         else throw new Error("Entity not found");
     }
@@ -44,10 +46,12 @@ export default class IndexedDBRepository<T extends IBaseEntity>
                 if (filter(value)) results.push(value);
             } else results.push(value);
         });
+        await new Promise((resolve) => setTimeout(resolve, 500));
         return results;
     }
 
     async delete(id: string): Promise<void> {
+        await new Promise((resolve) => setTimeout(resolve, 100));
         return this._store.removeItem(id.toString());
     }
 }
