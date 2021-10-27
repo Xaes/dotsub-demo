@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import Config from "../../config";
 import { NavLink } from "react-router-dom";
-import AlbumList from "../../components/album-list";
-import { Switch, Route, Redirect } from "react-router";
+import HomeImageList from "./home-image-list";
+import HomeAlbumList from "./home-album-list";
 import PageHeader from "../../components/page-header";
+import { Switch, Route, Redirect } from "react-router";
 import CollectionIcon from "@heroicons/react/outline/CollectionIcon";
 import PhotographIcon from "@heroicons/react/outline/PhotographIcon";
-import ImageList from "../../components/image-list";
 
 const Home: FC = () => (
     <section data-testid="home-section">
@@ -31,12 +31,12 @@ const Home: FC = () => (
                     <Route
                         exact
                         path={Config.LINKS.EXPLORE_BY_ALBUM}
-                        render={() => <AlbumList />}
+                        render={() => <HomeAlbumList />}
                     />
                     <Route
                         exact
                         path={Config.LINKS.EXPLORE_BY_IMAGES}
-                        render={() => <ImageList />}
+                        render={() => <HomeImageList />}
                     />
                     <Route
                         path="*"

@@ -1,30 +1,36 @@
 import Empty from "../empty";
+import Loading from "../loading";
 import Config from "../../config";
 import ImageCard from "../image-card";
 import { Link } from "react-router-dom";
-import React, { FC, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPhotos, selectAll } from "../../redux/slices/photo";
+import { IPhoto } from "@dotsub-demo/common/common";
+import React, { FC, useState, useEffect } from "react";
 
-const ImageList: FC = () => {
-    const images = useSelector(selectAll);
-    const dispatch = useDispatch();
+const ImageList: FC<{
+    photos?: IPhoto[],
+    loading: boolean,
+    gridClassName?: string
+}> = ({ photos, loading, gridClassName }) => {
+
+    const [displayEmpty, setDisplayEmpty] = useState<boolean>(false);
+    const photoItems = photos?.map((image) => <ImageCard key={image.id} {...image} />);
 
     useEffect(() => {
-        dispatch(fetchPhotos());
-    }, []);
+        if (loading) setDisplayEmpty(true);
+    }, [loading])
 
-    const imageItems = images.map((image) => <ImageCard key={image.id} {...image} />);
-
-    return images.length > 0 ? (
-        <div className="grid grid-cols-3 gap-8">{imageItems}</div>
-    ) : (
+    if (photos && photos.length > 0)
+        return <div className={`grid ${gridClassName || "grid-cols-3"} gap-8`}>{photoItems}</div>;
+    else if (loading || !displayEmpty)
+        return <Loading loading={true} />;
+    else return (
         <Empty>
             <Link to={Config.LINKS.NEW_ALBUM} className="primary-button">
                 Create Album
             </Link>
         </Empty>
     );
+
 };
 
 ImageList.displayName = "AlbumList";

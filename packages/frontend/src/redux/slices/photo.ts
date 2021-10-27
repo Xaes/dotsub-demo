@@ -89,6 +89,18 @@ export const PhotoSlice = createSlice({
                 (state) => {
                     state.status = StateStatus.LOADING;
                 }
+            )
+            .addMatcher(
+                isAnyOf(
+                    addPhoto.rejected,
+                    fetchPhotos.rejected,
+                    fetchPhotosByAlbum.rejected,
+                    fetchPhoto.rejected,
+                    deletePhoto.rejected
+                ),
+                (state) => {
+                    state.status = StateStatus.ERROR;
+                }
             );
     },
 });

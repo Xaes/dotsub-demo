@@ -1,30 +1,32 @@
-import AlbumCard from "../album-card";
 import Empty from "../empty";
+import Loading from "../loading";
 import Config from "../../config";
-import React, { FC, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAlbums, selectAll } from "../../redux/slices/album";
+import AlbumCard from "../album-card";
 import { Link } from "react-router-dom";
+import { IAlbum } from "@dotsub-demo/common/common";
+import React, { FC, useEffect, useState } from "react";
 
-const AlbumList: FC = () => {
-    const albums = useSelector(selectAll);
-    const dispatch = useDispatch();
+const AlbumList: FC<{ albums?: IAlbum[], loading: boolean }> = ({ albums, loading }) => {
+
+    const [displayEmpty, setDisplayEmpty] = useState<boolean>(false);
+    const albumItems = albums?.map((album) => <AlbumCard key={album.id} {...album} />);
 
     useEffect(() => {
-        dispatch(fetchAlbums());
-    }, []);
+        if (loading) setDisplayEmpty(true);
+    }, [loading])
 
-    const albumItems = albums.map((album) => <AlbumCard key={album.id} {...album} />);
-
-    return albums.length > 0 ? (
-        <div className="grid grid-cols-3 gap-8">{albumItems}</div>
-    ) : (
+    if (albums && albums.length > 0)
+        return <div className="grid grid-cols-3 gap-8">{albumItems}</div>;
+    else if (loading || !displayEmpty)
+        return <Loading loading={true} />;
+    else return (
         <Empty>
             <Link to={Config.LINKS.NEW_ALBUM} className="primary-button">
                 Create Album
             </Link>
         </Empty>
     );
+
 };
 
 AlbumList.displayName = "AlbumList";

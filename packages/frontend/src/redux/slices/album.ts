@@ -72,7 +72,18 @@ export const AlbumSlice = createSlice({
                 (state) => {
                     state.status = StateStatus.LOADING;
                 }
-            );
+            )
+            .addMatcher(
+                isAnyOf(
+                    fetchAlbum.rejected,
+                    fetchAlbums.rejected,
+                    fetchAlbum.rejected,
+                    deleteAlbum.rejected
+                ),
+                (state) => {
+                    state.status = StateStatus.ERROR;
+                }
+            )
     },
 });
 
