@@ -1,7 +1,9 @@
 import Loading from "../loading";
+import Config from "../../config";
 import { toBase64 } from "../../utils";
 import DropPhotos from "../drop-photos";
 import useForm from "../../hooks/useForm";
+import { useHistory } from "react-router";
 import React, { FC, useState } from "react";
 import UploadPreview from "../upload-preview";
 import { RootState } from "../../redux/slices";
@@ -12,6 +14,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { StateStatus } from "../../redux/slices/state-status";
 
 const AlbumAdd: FC = () => {
+
+    const history = useHistory();
+
     const albumStatus = useSelector<RootState, StateStatus>(
         (state) => state.Album.status
     );
@@ -66,14 +71,17 @@ const AlbumAdd: FC = () => {
                 return id;
             });
 
-            await Promise.all(photosIds).then(async (photoIds) => {
-                dispatch(
+            const albumId = await Promise.all(photosIds).then(async (photoIds) => {
+                const { id } = await dispatch(
                     addAlbum({
                         name: items.name.value as string,
                         photoIds,
                     })
-                );
+                ).unwrap();
+                return id;
             });
+
+            history.push(Config.LINKS.ALBUM.replace(":albumId", albumId));
         },
     });
 
