@@ -1,10 +1,10 @@
 import AlbumSlice from "./album";
 import PhotoSlice from "./photo";
 import { combineReducers } from "redux";
-
+import { StateStatus } from "./state-status";
 export interface GenericState {
     error?: string;
-    status: "loading" | "finished" | "error" | "initialized";
+    status: StateStatus;
     selectedEntity?: string
 }
 

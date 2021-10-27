@@ -1,14 +1,19 @@
+import Loading from "../loading";
 import { toBase64 } from "../../utils";
 import DropPhotos from "../drop-photos";
-import { useDispatch } from "react-redux";
 import useForm from "../../hooks/useForm";
 import React, { FC, useState } from "react";
 import UploadPreview from "../upload-preview";
+import { RootState } from "../../redux/slices";
 import { AppDispatch } from "../../redux/store";
 import { addPhoto } from "../../redux/slices/photo";
 import { addAlbum } from "../../redux/slices/album";
+import { useDispatch, useSelector } from "react-redux";
+import { StateStatus } from "../../redux/slices/state-status";
 
 const AlbumAdd: FC = () => {
+    const albumStatus = useSelector<RootState>(state => state.Album.status);
+    const photoStatus = useSelector<RootState>(state => state.Photo.status);
     const [files, setFiles] = useState<{ file: File; data: string }[]>([]);
     const dispatch = useDispatch<AppDispatch>();
 
@@ -68,56 +73,61 @@ const AlbumAdd: FC = () => {
         },
     });
 
+    /* eslint-disable */
+    console.log(albumStatus, photoStatus)
+
     return (
-        <div className="grid grid-cols-10 gap-24">
-            <form
-                role="form"
-                className="col-span-4"
-                data-testid="create-album-form"
-                onSubmit={(event) => event.preventDefault()}
-            >
-                <div className="form-group">
-                    <label>
-                        <span>Name: </span>
-                        <input
-                            placeholder="Name..."
-                            type="text"
-                            value={items.name.value as string}
-                            onChange={({ target }) => registerValue("name", target.value)}
-                        />
-                    </label>
-                    {items.name.hasError && (
-                        <span className="error-feedback mt-2">
-                            Name is required. Name needs to be longer than 5 characters.
-                        </span>
-                    )}
+        <Loading loading={albumStatus === StateStatus.LOADING || photoStatus === StateStatus.LOADING}>
+            <div className="grid grid-cols-10 gap-24">
+                <form
+                    role="form"
+                    className="col-span-4"
+                    data-testid="create-album-form"
+                    onSubmit={(event) => event.preventDefault()}
+                >
+                    <div className="form-group">
+                        <label>
+                            <span>Name: </span>
+                            <input
+                                placeholder="Name..."
+                                type="text"
+                                value={items.name.value as string}
+                                onChange={({ target }) => registerValue("name", target.value)}
+                            />
+                        </label>
+                        {items.name.hasError && (
+                            <span className="error-feedback mt-2">
+                                Name is required. Name needs to be longer than 5 characters.
+                            </span>
+                        )}
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            <span>Invite: </span>
+                            <input
+                                placeholder="Name..."
+                                type="text"
+                                value={items.name.value as string}
+                                onChange={({ target }) => registerValue("name", target.value)}
+                            />
+                        </label>
+                        {items.name.hasError && (
+                            <span className="error-feedback mt-2">Email is invalid.</span>
+                        )}
+                    </div>
+                    <button type="submit" className="primary-button mt-4" onClick={submit}>
+                        Create
+                    </button>
+                </form>
+                <div className="col-span-6">
+                    <DropPhotos onDrop={onDrop} />
+                    <UploadPreview
+                        images={files.map((f) => f.data)}
+                        onFileDelete={onFileDelete}
+                    />
                 </div>
-                <div className="form-group">
-                    <label>
-                        <span>Invite: </span>
-                        <input
-                            placeholder="Name..."
-                            type="text"
-                            value={items.name.value as string}
-                            onChange={({ target }) => registerValue("name", target.value)}
-                        />
-                    </label>
-                    {items.name.hasError && (
-                        <span className="error-feedback mt-2">Email is invalid.</span>
-                    )}
-                </div>
-                <button type="submit" className="primary-button mt-4" onClick={submit}>
-                    Create
-                </button>
-            </form>
-            <div className="col-span-6">
-                <DropPhotos onDrop={onDrop} />
-                <UploadPreview
-                    images={files.map((f) => f.data)}
-                    onFileDelete={onFileDelete}
-                />
             </div>
-        </div>
+        </Loading>
     );
 };
 

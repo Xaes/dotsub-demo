@@ -1,4 +1,5 @@
 import { RootState, GenericState } from ".";
+import { StateStatus } from "./state-status";
 import defaultMatchers from "./defaultMatchers";
 import { Service } from "../../service/service";
 import { EntityParams, IPhoto, IPhotoData } from "@dotsub-demo/common/common";
@@ -40,7 +41,7 @@ export const PhotoAdaper = createEntityAdapter<IPhoto>({
 });
 
 export const PhotoInitialState = PhotoAdaper.getInitialState<GenericState>({
-    status: "initialized",
+    status: StateStatus.INITIALIZED,
 });
 
 export const PhotoSlice = createSlice({
@@ -50,24 +51,24 @@ export const PhotoSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(addPhoto.fulfilled, (state, { payload }) => {
             PhotoAdaper.addOne(state, payload);
-            state.status = "finished";
+            state.status = StateStatus.FINISHED;
         });
         builder.addCase(fetchPhotos.fulfilled, (state, { payload }) => {
             PhotoAdaper.addMany(state, payload);
-            state.status = "finished";
+            state.status = StateStatus.FINISHED;
         });
         builder.addCase(fetchPhotosByAlbum.fulfilled, (state, { payload }) => {
             PhotoAdaper.addMany(state, payload);
-            state.status = "finished";
+            state.status = StateStatus.FINISHED;
         });
         builder.addCase(fetchPhoto.fulfilled, (state, { payload }) => {
             PhotoAdaper.addOne(state, payload);
             state.selectedEntity = payload.id;
-            state.status = "finished";
+            state.status = StateStatus.FINISHED;
         });
         builder.addCase(deletePhoto.fulfilled, (state, { payload }) => {
             PhotoAdaper.removeOne(state, payload);
-            state.status = "finished";
+            state.status = StateStatus.FINISHED;
         });
         defaultMatchers(builder);
     },
