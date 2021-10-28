@@ -3,6 +3,7 @@ import Store from "./redux/store";
 import React, { FC } from "react";
 import Home from "./modules/home";
 import Album from "./modules/album";
+import Photo from "./modules/photo";
 import Layout from "./components/layout";
 import NotFound from "./modules/not-found";
 import AlbumAdd from "./modules/album-add";
@@ -29,6 +30,11 @@ const App: FC = () => (
                             exact
                             path={Config.LINKS.ALBUM}
                             component={() => <Album />}
+                        />
+                        <Route
+                            exact
+                            path={Config.LINKS.IMAGE}
+                            component={() => <Photo />}
                         />
                         <Route
                             exact

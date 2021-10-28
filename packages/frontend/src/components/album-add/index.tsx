@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { StateStatus } from "../../redux/slices/state-status";
 
 const AlbumAdd: FC = () => {
-
     const history = useHistory();
 
     const albumStatus = useSelector<RootState, StateStatus>(

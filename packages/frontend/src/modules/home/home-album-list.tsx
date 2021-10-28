@@ -6,8 +6,7 @@ import { StateStatus } from "../../redux/slices/state-status";
 import { fetchAlbums, selectAll } from "../../redux/slices/album";
 
 const HomeAlbumList: FC = () => {
-
-    const status = useSelector<RootState, StateStatus>(state => state.Album.status);
+    const status = useSelector<RootState, StateStatus>((state) => state.Album.status);
     const albums = useSelector(selectAll);
     const dispatch = useDispatch();
 
@@ -15,8 +14,8 @@ const HomeAlbumList: FC = () => {
         dispatch(fetchAlbums());
     }, []);
 
-    return <AlbumList albums={albums} loading={status === StateStatus.LOADING} />
-}
+    return <AlbumList albums={albums} loading={status === StateStatus.LOADING} />;
+};
 
 HomeAlbumList.displayName = "HomeAlbumList";
 export default HomeAlbumList;

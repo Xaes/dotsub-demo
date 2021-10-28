@@ -3,12 +3,13 @@ import { Colors, Context } from "../../context/color-scheme";
 
 const ImageHolder: FC<{
     image?: string;
+    className?: string;
     alt: string;
-}> = ({ image, alt }) => {
+}> = ({ image, alt, className }) => {
     const { data } = useContext(Context);
 
     if (image)
-        return <img src={image} alt={alt} className="object-cover w-full h-full" />;
+        return <img src={image} alt={alt} className={`object-cover w-full h-full ${className}`} />;
 
     return (
         <div

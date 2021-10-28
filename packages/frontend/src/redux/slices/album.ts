@@ -83,7 +83,7 @@ export const AlbumSlice = createSlice({
                 (state) => {
                     state.status = StateStatus.ERROR;
                 }
-            )
+            );
     },
 });
 

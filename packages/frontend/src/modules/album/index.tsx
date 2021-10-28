@@ -18,7 +18,10 @@ const Album: FC = () => {
     const [displayNotFound, setDisplayNotFound] = useState<boolean>(false);
     const album = useSelector((state: RootState) => selectById(state, albumId));
     const photos = useSelector(selectPhotosByAlbum);
-    const [albumStatus, photosStatus] = useSelector((state: RootState) => [state.Album.status, state.Photo.status]);
+    const [albumStatus, photosStatus] = useSelector((state: RootState) => [
+        state.Album.status,
+        state.Photo.status,
+    ]);
 
     useEffect(() => {
         dispatch(fetchAlbum(albumId));
@@ -30,7 +33,10 @@ const Album: FC = () => {
         <section data-testid="album-section">
             {album ? (
                 <React.Fragment>
-                    <PageHeader title={`Album: ${album?.name}`} subtitle="Browse pictures" />
+                    <PageHeader
+                        title={`Album: ${album?.name}`}
+                        subtitle="Browse pictures"
+                    />
                     <div className="flex justify-between items-center mb-16">
                         <h6 className="text-black dark:text-white font-medium">
                             A collection of
@@ -54,7 +60,11 @@ const Album: FC = () => {
                         loading={photosStatus === StateStatus.LOADING}
                     />
                 </React.Fragment>
-            ) : albumStatus === StateStatus.LOADING || !displayNotFound ? <Loading loading={true} /> : <NotFound />}
+            ) : albumStatus === StateStatus.LOADING || !displayNotFound ? (
+                <Loading loading={true} />
+            ) : (
+                <NotFound />
+            )}
         </section>
     );
 };

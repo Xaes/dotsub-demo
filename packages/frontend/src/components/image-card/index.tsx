@@ -19,7 +19,7 @@ const ImageCard: FC<IPhoto> = ({ tag, dataId, id, name, createdAt }) => {
 
     return (
         <Link
-            to={Config.LINKS.IMAGE.replace(":imageId", id)}
+            to={Config.LINKS.IMAGE.replace(":photoId", id)}
             className={`shadow-md rounded-2xl overflow-hidden hover:shadow-2xl bg-white-1 dark:bg-black-2 dark:hover:bg-transparent`}
         >
             <div className="w-full h-64">

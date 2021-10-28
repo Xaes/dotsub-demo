@@ -7,30 +7,32 @@ import { IPhoto } from "@dotsub-demo/common/common";
 import React, { FC, useState, useEffect } from "react";
 
 const ImageList: FC<{
-    photos?: IPhoto[],
-    loading: boolean,
-    gridClassName?: string
+    photos?: IPhoto[];
+    loading: boolean;
+    gridClassName?: string;
 }> = ({ photos, loading, gridClassName }) => {
-
     const [displayEmpty, setDisplayEmpty] = useState<boolean>(false);
     const photoItems = photos?.map((image) => <ImageCard key={image.id} {...image} />);
 
     useEffect(() => {
         if (loading) setDisplayEmpty(true);
-    }, [loading])
+    }, [loading]);
 
     if (photos && photos.length > 0)
-        return <div className={`grid ${gridClassName || "grid-cols-3"} gap-8`}>{photoItems}</div>;
-    else if (loading || !displayEmpty)
-        return <Loading loading={true} />;
-    else return (
-        <Empty>
-            <Link to={Config.LINKS.NEW_ALBUM} className="primary-button">
-                Create Album
-            </Link>
-        </Empty>
-    );
-
+        return (
+            <div className={`grid ${gridClassName || "grid-cols-3"} gap-8`}>
+                {photoItems}
+            </div>
+        );
+    else if (loading || !displayEmpty) return <Loading loading={true} />;
+    else
+        return (
+            <Empty>
+                <Link to={Config.LINKS.NEW_ALBUM} className="primary-button">
+                    Create Album
+                </Link>
+            </Empty>
+        );
 };
 
 ImageList.displayName = "AlbumList";

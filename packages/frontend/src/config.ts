@@ -14,7 +14,7 @@ const AppConfig = {
         EXPLORE_BY_ALBUM: "/explore/albums",
         EXPLORE_BY_IMAGES: "/explore/images",
         NEW_ALBUM: "/album",
-        IMAGE: "/image/:imageId",
+        IMAGE: "/photo/:photoId",
         ALBUM: "/album/:albumId",
         IMAGE_IN_ALBUM: "/album/:albumId/photo/:photoId",
     },
