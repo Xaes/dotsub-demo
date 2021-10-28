@@ -53,13 +53,17 @@ const AlbumAdd: FC = () => {
                 value: "",
                 validate: { fn: ({ value }) => (value as string).length > 5 },
             },
+            tag: {
+                required: false,
+                value: ""
+            }
         },
         onSubmit: async ({ items }) => {
             const photosIds = files.map(async (file) => {
                 const { id } = await dispatch(
                     addPhoto({
                         photo: {
-                            tag: "something idk",
+                            tag: items.tag.value as string,
                             name: file.file.name,
                             extension: file.file.type,
                             size: file.file.size,
@@ -83,9 +87,6 @@ const AlbumAdd: FC = () => {
             history.push(Config.LINKS.ALBUM.replace(":albumId", albumId));
         },
     });
-
-    /* eslint-disable */
-    console.log(albumStatus, photoStatus);
 
     return (
         <Loading
@@ -121,19 +122,16 @@ const AlbumAdd: FC = () => {
                     </div>
                     <div className="form-group">
                         <label>
-                            <span>Invite: </span>
+                            <span>Tag: </span>
                             <input
-                                placeholder="Name..."
+                                placeholder="Tag..."
                                 type="text"
-                                value={items.name.value as string}
+                                value={items.tag.value as string}
                                 onChange={({ target }) =>
-                                    registerValue("name", target.value)
+                                    registerValue("tag", target.value)
                                 }
                             />
                         </label>
-                        {items.name.hasError && (
-                            <span className="error-feedback mt-2">Email is invalid.</span>
-                        )}
                     </div>
                     <button
                         type="submit"

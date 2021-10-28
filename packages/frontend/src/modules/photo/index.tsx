@@ -6,6 +6,7 @@ import { Service } from "../../service/service";
 import { AppDispatch } from "../../redux/store";
 import { useParams, useHistory } from "react-router";
 import PageHeader from "../../components/page-header";
+import TagIcon from "@heroicons/react/outline/TagIcon";
 import React, { FC, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ImageHolder from "../../components/image-holder";
@@ -95,9 +96,12 @@ const Photo: FC = () => {
                                 Size:
                                 <span className={valueClass}>{(photo.size / 1000000).toFixed(2)} MB</span>
                             </p>
-                            <p className={labelClass}>
+                            <p className={`${labelClass} flex items-center`}>
                                 Tag:
-                                <span className={valueClass}>{photo.tag || "N/A"}</span>
+                                <span className="px-3 py-1.5 ml-2 inline-flex items-center rounded-xl bg-primary">
+                                    <TagIcon className="h-3.5 w-3.5 mr-2 text-white" />
+                                    <span className="text-white text-xs font-bold">{photo.tag || "N/A"}</span>
+                                </span>
                             </p>
                         </div>
                     </div>
