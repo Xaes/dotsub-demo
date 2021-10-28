@@ -9,11 +9,11 @@ const ImageHolder: FC<{
     const { data } = useContext(Context);
 
     if (image)
-        return <img src={image} alt={alt} className={`object-cover w-full h-full ${className}`} />;
+        return <img src={image} alt={alt} className={`object-cover w-full h-full ${className || ""}`} />;
 
     return (
         <div
-            className={`w-full h-full ${className} ${
+            className={`w-full h-full ${className || ""} ${
                 data?.color === Colors.DARK ? "pattern-dark" : "pattern-light"
             }`}
         />

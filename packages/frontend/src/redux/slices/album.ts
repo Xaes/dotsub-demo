@@ -7,8 +7,6 @@ import {
     createEntityAdapter,
     createAsyncThunk,
     isAnyOf,
-    EntityId,
-    createAction
 } from "@reduxjs/toolkit";
 import { deletePhoto } from "./photo";
 
@@ -16,6 +14,14 @@ export const addAlbum = createAsyncThunk<IAlbum, EntityParams<IAlbum>>(
     "Album/AddAlbum",
     async (album) => Service.singleton.addAlbum(album)
 );
+
+export const addPhotosToAlbum = createAsyncThunk<IAlbum, {
+    photoIds: string[],
+    albumId: string
+}>(
+    "Album/AddPhotosToAlbum",
+    async ({ photoIds, albumId }) => Service.singleton.includePhotosInAlbum(photoIds, albumId)
+)
 
 export const fetchAlbums = createAsyncThunk<IAlbum[]>("Albums/FetchAlbum", async () =>
     Service.singleton.getAllAlbums()
@@ -70,12 +76,17 @@ export const AlbumSlice = createSlice({
                 AlbumAdapter.upsertMany(state, albums);
                 state.status = StateStatus.FINISHED;
             })
+            .addCase(addPhotosToAlbum.fulfilled, (state, { payload }) => {
+                AlbumAdapter.upsertOne(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
             .addMatcher(
                 isAnyOf(
                     fetchAlbum.pending,
                     fetchAlbums.pending,
                     fetchAlbum.pending,
-                    deleteAlbum.pending
+                    deleteAlbum.pending,
+                    addPhotosToAlbum.pending
                 ),
                 (state) => {
                     state.status = StateStatus.LOADING;

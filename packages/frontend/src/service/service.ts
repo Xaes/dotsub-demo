@@ -82,8 +82,12 @@ export class Service implements IService {
         throw new Error("Method not implemented.");
     }
 
-    includePhotoInAlbum(photoId: string, albumId: string): Promise<IAlbum> {
-        throw new Error("Method not implemented.");
+    async includePhotosInAlbum(photosId: string[], albumId: string): Promise<IAlbum> {
+        const album = await AlbumRepo.singleton.getById(albumId);
+        photosId.forEach(id => {
+            if (!album.photoIds.includes(id)) album.photoIds.push(id)
+        })
+        return AlbumRepo.singleton.update(album);
     }
 
     async downloadImage(photoDataId: string): Promise<string> {

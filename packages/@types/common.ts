@@ -46,7 +46,7 @@ export interface IService {
     addPhoto(photo: Omit<EntityParams<IPhoto>, "dataId">, data: EntityParams<IPhotoData>): Promise<IPhoto>;
     addAlbum(album: EntityParams<IAlbum>): Promise<IAlbum>;
     share(shareableEntity: IShareable): Promise<string[]>;
-    includePhotoInAlbum(photoId: string, albumId: string): Promise<IAlbum>
+    includePhotosInAlbum(photosId: string[], albumId: string): Promise<IAlbum>
     deleteAlbum(albumId: string): Promise<void>;
     deletePhoto(photoId: string): Promise<{ 
         albums: IAlbum[]

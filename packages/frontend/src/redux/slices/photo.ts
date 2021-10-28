@@ -116,4 +116,12 @@ export const selectPhotosByAlbum = createSelector(
         album ? photos.filter((p) => album.photoIds.includes(p.id)) : undefined
 );
 
+export const selectPhotosNotInAlbum = createSelector(
+    selectAll,
+    ({ Album }: RootState) =>
+        Album.selectedEntity ? Album.entities[Album.selectedEntity] : undefined,
+    (photos, album) =>
+        album ? photos.filter((p) => !album.photoIds.includes(p.id)) : undefined
+)
+
 export default PhotoSlice.reducer;

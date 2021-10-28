@@ -137,7 +137,7 @@ const AlbumAdd: FC = () => {
                     </div>
                     <button
                         type="submit"
-                        className="primary-button mt-4"
+                        className="button primary-button mt-4"
                         onClick={submit}
                     >
                         Create

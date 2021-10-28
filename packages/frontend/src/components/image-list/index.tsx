@@ -28,7 +28,7 @@ const ImageList: FC<{
     else
         return (
             <Empty>
-                <Link to={Config.LINKS.NEW_ALBUM} className="primary-button">
+                <Link to={Config.LINKS.NEW_ALBUM} className="button primary-button">
                     Create Album
                 </Link>
             </Empty>

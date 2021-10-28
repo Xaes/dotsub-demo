@@ -110,8 +110,16 @@ form .form-group label {
     @apply bg-red-600 hover:bg-black dark:hover:bg-white dark:hover:text-black;
 }
 
-.primary-button {
-    @apply py-3 px-5 inline-block font-bold text-sm rounded-xl bg-primary text-white hover:bg-primary-light hover:text-white transition-all shadow-md hover:shadow-2xl;
+.button {
+    @apply py-3 px-5 inline-block font-bold text-sm rounded-xl transition-all shadow-md hover:shadow-2xl;
+}
+
+.button.primary-button {
+    @apply bg-primary text-white hover:bg-primary-light hover:text-white;
+}
+
+.button.disabled-button {
+    @apply bg-primary-light text-white select-none pointer-events-none;
 }
 
 /** Utils **/
