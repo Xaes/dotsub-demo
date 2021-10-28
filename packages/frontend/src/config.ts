@@ -7,7 +7,7 @@ const AppConfig = {
         DESCRIPTION:
             process.env.REACT_APP_WEBSITE_DESCRIPTION ||
             "Manage your albums and photos with ease.",
-        BANNER: process.env.REACT_APP_WEBSITE_BANNER || "/banner.png",
+        BANNER: process.env.REACT_APP_WEBSITE_BANNER || "/banner.jpg",
     },
     LINKS: {
         HOME: "/explore",
