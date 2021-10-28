@@ -18,13 +18,13 @@ const ImageList: FC<{
         if (loading) setDisplayEmpty(true);
     }, [loading]);
 
-    if (photos && photos.length > 0)
+    if (loading || !displayEmpty) return <Loading loading={true} />;
+    else if (photos && photos.length > 0)
         return (
             <div className={`grid ${gridClassName || "grid-cols-3"} gap-8`}>
                 {photoItems}
             </div>
         );
-    else if (loading || !displayEmpty) return <Loading loading={true} />;
     else
         return (
             <Empty>

@@ -14,9 +14,9 @@ const AlbumList: FC<{ albums?: IAlbum[]; loading: boolean }> = ({ albums, loadin
         if (loading) setDisplayEmpty(true);
     }, [loading]);
 
-    if (albums && albums.length > 0)
-        return <div className="grid grid-cols-3 gap-8">{albumItems}</div>;
-    else if (loading || !displayEmpty) return <Loading loading={true} />;
+    if (loading || !displayEmpty) return <Loading loading={true} />;
+    else if (albums && albums.length > 0)
+        return <div className="grid grid-cols-3 gap-8">{albumItems}</div>; 
     else
         return (
             <Empty>

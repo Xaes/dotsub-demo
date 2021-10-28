@@ -7,7 +7,8 @@ import {
     createEntityAdapter,
     createAsyncThunk,
     isAnyOf,
-    EntityId
+    EntityId,
+    createAction
 } from "@reduxjs/toolkit";
 import { deletePhoto } from "./photo";
 
