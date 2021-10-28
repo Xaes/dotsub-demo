@@ -7,7 +7,9 @@ import {
     createEntityAdapter,
     createAsyncThunk,
     isAnyOf,
+    EntityId
 } from "@reduxjs/toolkit";
+import { deletePhoto } from "./photo";
 
 export const addAlbum = createAsyncThunk<IAlbum, EntityParams<IAlbum>>(
     "Album/AddAlbum",
@@ -60,6 +62,11 @@ export const AlbumSlice = createSlice({
             })
             .addCase(deleteAlbum.fulfilled, (state, { payload }) => {
                 AlbumAdapter.removeOne(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(deletePhoto.fulfilled, (state, { payload }) => {
+                const { albums, photoId } = payload;
+                AlbumAdapter.upsertMany(state, albums);
                 state.status = StateStatus.FINISHED;
             })
             .addMatcher(

@@ -13,7 +13,7 @@ const ImageHolder: FC<{
 
     return (
         <div
-            className={`w-full h-full ${
+            className={`w-full h-full ${className} ${
                 data?.color === Colors.DARK ? "pattern-dark" : "pattern-light"
             }`}
         />

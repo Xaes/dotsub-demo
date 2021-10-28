@@ -1,7 +1,7 @@
 import { RootState, GenericState } from ".";
 import { StateStatus } from "./state-status";
 import { Service } from "../../service/service";
-import { EntityParams, IPhoto, IPhotoData } from "@dotsub-demo/common/common";
+import { EntityParams, IPhoto, IPhotoData, IAlbum } from "@dotsub-demo/common/common";
 import {
     createSlice,
     createEntityAdapter,
@@ -35,12 +35,12 @@ export const fetchPhoto = createAsyncThunk<IPhoto, string>(
     async (id: string) => Service.singleton.getPhotoById(id)
 );
 
-export const deletePhoto = createAsyncThunk<string, string>(
+export const deletePhoto = createAsyncThunk<{ 
+    albums: IAlbum[]
+    photoId: string
+}, string>(
     "Photos/DeletePhoto",
-    async (id) => {
-        await Service.singleton.deletePhoto(id);
-        return id;
-    }
+    async (id: string) => Service.singleton.deletePhoto(id)
 );
 
 export const PhotoAdaper = createEntityAdapter<IPhoto>({
@@ -75,7 +75,7 @@ export const PhotoSlice = createSlice({
                 state.status = StateStatus.FINISHED;
             })
             .addCase(deletePhoto.fulfilled, (state, { payload }) => {
-                PhotoAdaper.removeOne(state, payload);
+                PhotoAdaper.removeOne(state, payload.photoId);
                 state.status = StateStatus.FINISHED;
             })
             .addMatcher(

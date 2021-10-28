@@ -73,6 +73,7 @@ const Photo: FC = () => {
                     <div className="grid grid-cols-12 gap-12">
                         <div className="col-span-9">
                             <ImageHolder
+                            
                                 alt={photo.name}
                                 image={image}
                                 className="shadow-md hover:shadow-2xl transition-all rounded-2xl select-none"

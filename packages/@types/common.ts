@@ -33,12 +33,14 @@ export interface IRepository<T extends IBaseEntity> {
     getById(id: string): Promise<T>;
     getAll(filter?: Filter<T>): Promise<T[]>;
     delete(id: string): Promise<void>;
+    update(entity: T): Promise<T>;
 }
 
 export interface IService {
-    getAllAlbums(): Promise<IAlbum[]>;
-    getAllPhotos(): Promise<IPhoto[]>;
+    getAllAlbums(filter?: Filter<IAlbum>): Promise<IAlbum[]>;
+    getAllPhotos(filter?: Filter<IPhoto>): Promise<IPhoto[]>;
     getPhotosByAlbum(albumId: string): Promise<IPhoto[]>;
+    getAlbumsByPhoto(photoId: string): Promise<IAlbum[]>;
     getAlbumById(albumId: string): Promise<IAlbum>;
     getPhotoById(photoId: string): Promise<IPhoto>;
     addPhoto(photo: Omit<EntityParams<IPhoto>, "dataId">, data: EntityParams<IPhotoData>): Promise<IPhoto>;
@@ -46,6 +48,9 @@ export interface IService {
     share(shareableEntity: IShareable): Promise<string[]>;
     includePhotoInAlbum(photoId: string, albumId: string): Promise<IAlbum>
     deleteAlbum(albumId: string): Promise<void>;
-    deletePhoto(photoId: string): Promise<void>;
+    deletePhoto(photoId: string): Promise<{ 
+        albums: IAlbum[]
+        photoId: string
+    }>;
     downloadImage(photoDataId: string): Promise<string>
 }

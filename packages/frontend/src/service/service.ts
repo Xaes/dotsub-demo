@@ -7,6 +7,7 @@ import {
     IPhotoData,
     IService,
     IShareable,
+    Filter
 } from "@dotsub-demo/common/common";
 import PhotoDataRepo from "./photo-data-repo";
 
@@ -17,12 +18,12 @@ export class Service implements IService {
         return;
     }
 
-    getAllAlbums(): Promise<IAlbum[]> {
-        return AlbumRepo.singleton.getAll();
+    getAllAlbums(filter?: Filter<IAlbum>): Promise<IAlbum[]> {
+        return AlbumRepo.singleton.getAll(filter);
     }
 
-    getAllPhotos(): Promise<IPhoto[]> {
-        return PhotoRepo.singleton.getAll();
+    getAllPhotos(filter?: Filter<IPhoto>): Promise<IPhoto[]> {
+        return PhotoRepo.singleton.getAll(filter);
     }
 
     getPhotosByAlbum(albumId: string): Promise<IPhoto[]> {
@@ -35,6 +36,10 @@ export class Service implements IService {
 
     getAlbumById(albumId: string): Promise<IAlbum> {
         return AlbumRepo.singleton.getById(albumId);
+    }
+
+    getAlbumsByPhoto(photoId: string): Promise<IAlbum[]> {
+        return AlbumRepo.singleton.getAll(album => album.photoIds.includes(photoId));
     }
 
     getPhotoById(photoId: string): Promise<IPhoto> {
@@ -60,8 +65,17 @@ export class Service implements IService {
         return AlbumRepo.singleton.delete(albumId);
     }
 
-    deletePhoto(photoId: string): Promise<void> {
-        return PhotoRepo.singleton.delete(photoId);
+    async deletePhoto(photoId: string): Promise<{ 
+        albums: IAlbum[]
+        photoId: string
+    }> {
+        const albums = await this.getAlbumsByPhoto(photoId);
+        const updatedAlbums = await Promise.all(albums.map(album => AlbumRepo.singleton.update({
+            ...album,
+            photoIds: album.photoIds.filter(id => id !== photoId)
+        })));
+        await PhotoRepo.singleton.delete(photoId);
+        return { albums: updatedAlbums, photoId };
     }
 
     share(shareableEntity: IShareable): Promise<string[]> {

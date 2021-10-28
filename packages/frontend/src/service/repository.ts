@@ -54,4 +54,8 @@ export default class IndexedDBRepository<T extends IBaseEntity>
         await new Promise((resolve) => setTimeout(resolve, 100));
         return this._store.removeItem(id.toString());
     }
+
+    async update(entity: T): Promise<T> {
+        return this._store.setItem<T>(entity.id, entity)
+    }
 }
