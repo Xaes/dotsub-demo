@@ -119,7 +119,7 @@ form .form-group label {
 }
 
 .button.disabled-button {
-    @apply bg-primary-light text-white select-none pointer-events-none;
+    @apply bg-primary-light dark:bg-primary-dark text-white select-none pointer-events-none;
 }
 
 /** Utils **/

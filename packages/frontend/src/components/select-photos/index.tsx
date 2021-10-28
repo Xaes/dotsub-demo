@@ -42,7 +42,7 @@ const SelectPhotos: FC<{
     if (status === StateStatus.LOADING || !displayResults) return <Loading loading={true} />;
     else if (photosNotIncluded && photosNotIncluded.length > 0) return (
         <div className="space-y-8">
-            <h4 className="mb-8">Add More Photos:</h4>
+            <h4 className="mb-8 text-black dark:text-white transition-colors">Add More Photos:</h4>
             {photoItems}
             <button
                 type="button"
