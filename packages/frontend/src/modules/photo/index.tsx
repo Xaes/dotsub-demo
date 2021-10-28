@@ -1,8 +1,10 @@
+import Config from "../../config";
 import NotFound from "../not-found";
-import { useParams } from "react-router";
 import { RootState } from "../../redux/slices";
 import Loading from "../../components/loading";
 import { Service } from "../../service/service";
+import { AppDispatch } from "../../redux/store";
+import { useParams, useHistory } from "react-router";
 import PageHeader from "../../components/page-header";
 import React, { FC, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +17,8 @@ const labelClass = "font-bold text-gray-500";
 const valueClass = "text-black dark:text-white font-bold ml-2 transition-colors";
 
 const Photo: FC = () => {
-    const dispatch = useDispatch();
+    const history = useHistory();
+    const dispatch = useDispatch<AppDispatch>();
     const [image, setImage] = useState<string>();
     const { photoId } = useParams<{ photoId: string }>();
     const [displayNotFound, setDisplayNotFound] = useState<boolean>(false);
@@ -44,6 +47,11 @@ const Photo: FC = () => {
         day: "2-digit",
     });
 
+    const onClickDelete = async () => {
+        await dispatch(deletePhoto(photoId)).unwrap();
+        history.push(Config.LINKS.EXPLORE_BY_IMAGES);
+    }
+
     return (
         <section data-testid="album-section">
             {photo ? (
@@ -57,7 +65,7 @@ const Photo: FC = () => {
                             type="button"
                             role="button"
                             className="rounded-button danger"
-                            onClick={() => dispatch(deletePhoto(photoId))}
+                            onClick={onClickDelete}
                         >
                             <TrashIcon className="h-5 w-5" />
                         </button>

@@ -1,8 +1,9 @@
+import Config from "../../config";
 import NotFound from "../not-found";
-import { useParams } from "react-router";
 import { RootState } from "../../redux/slices";
 import Loading from "../../components/loading";
 import ImageList from "../../components/image-list";
+import { useParams, useHistory } from "react-router";
 import PageHeader from "../../components/page-header";
 import { selectById } from "../../redux/slices/album";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,9 +12,11 @@ import TrashIcon from "@heroicons/react/outline/TrashIcon";
 import { StateStatus } from "../../redux/slices/state-status";
 import { fetchAlbum, deleteAlbum } from "../../redux/slices/album";
 import { fetchPhotosByAlbum, selectPhotosByAlbum } from "../../redux/slices/photo";
+import { AppDispatch } from "../../redux/store";
 
 const Album: FC = () => {
-    const dispatch = useDispatch();
+    const history = useHistory();
+    const dispatch = useDispatch<AppDispatch>();
     const { albumId } = useParams<{ albumId: string }>();
     const [displayNotFound, setDisplayNotFound] = useState<boolean>(false);
     const album = useSelector((state: RootState) => selectById(state, albumId));
@@ -28,6 +31,11 @@ const Album: FC = () => {
         dispatch(fetchPhotosByAlbum(albumId));
         setDisplayNotFound(true);
     }, [albumId, album]);
+
+    const onClickDelete = async () => {
+        await dispatch(deleteAlbum(albumId)).unwrap();
+        history.push(Config.LINKS.EXPLORE_BY_ALBUM);
+    }
 
     return (
         <section data-testid="album-section">
@@ -49,7 +57,7 @@ const Album: FC = () => {
                             type="button"
                             role="button"
                             className="rounded-button danger"
-                            onClick={() => dispatch(deleteAlbum(albumId))}
+                            onClick={onClickDelete}
                         >
                             <TrashIcon className="h-5 w-5" />
                         </button>
