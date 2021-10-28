@@ -42,16 +42,18 @@ const Photo: FC = () => {
         setDisplayNotFound(true);
     }, [photoId]);
 
-    const createdAt = photo && new Date(photo.createdAt).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-    });
+    const createdAt =
+        photo &&
+        new Date(photo.createdAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+        });
 
     const onClickDelete = async () => {
         await dispatch(deletePhoto(photoId)).unwrap();
         history.push(Config.LINKS.EXPLORE_BY_IMAGES);
-    }
+    };
 
     return (
         <section data-testid="album-section">
@@ -94,13 +96,17 @@ const Photo: FC = () => {
                             </p>
                             <p className={labelClass}>
                                 Size:
-                                <span className={valueClass}>{(photo.size / 1000000).toFixed(2)} MB</span>
+                                <span className={valueClass}>
+                                    {(photo.size / 1000000).toFixed(2)} MB
+                                </span>
                             </p>
                             <p className={`${labelClass} flex items-center`}>
                                 Tag:
                                 <span className="px-3 py-1.5 ml-2 inline-flex items-center rounded-xl bg-primary">
                                     <TagIcon className="h-3.5 w-3.5 mr-2 text-white" />
-                                    <span className="text-white text-xs font-bold">{photo.tag || "N/A"}</span>
+                                    <span className="text-white text-xs font-bold">
+                                        {photo.tag || "N/A"}
+                                    </span>
                                 </span>
                             </p>
                         </div>

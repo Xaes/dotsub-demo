@@ -15,13 +15,15 @@ export const addAlbum = createAsyncThunk<IAlbum, EntityParams<IAlbum>>(
     async (album) => Service.singleton.addAlbum(album)
 );
 
-export const addPhotosToAlbum = createAsyncThunk<IAlbum, {
-    photoIds: string[],
-    albumId: string
-}>(
-    "Album/AddPhotosToAlbum",
-    async ({ photoIds, albumId }) => Service.singleton.includePhotosInAlbum(photoIds, albumId)
-)
+export const addPhotosToAlbum = createAsyncThunk<
+    IAlbum,
+    {
+        photoIds: string[];
+        albumId: string;
+    }
+>("Album/AddPhotosToAlbum", async ({ photoIds, albumId }) =>
+    Service.singleton.includePhotosInAlbum(photoIds, albumId)
+);
 
 export const fetchAlbums = createAsyncThunk<IAlbum[]>("Albums/FetchAlbum", async () =>
     Service.singleton.getAllAlbums()

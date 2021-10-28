@@ -35,13 +35,13 @@ export const fetchPhoto = createAsyncThunk<IPhoto, string>(
     async (id: string) => Service.singleton.getPhotoById(id)
 );
 
-export const deletePhoto = createAsyncThunk<{ 
-    albums: IAlbum[]
-    photoId: string
-}, string>(
-    "Photos/DeletePhoto",
-    async (id: string) => Service.singleton.deletePhoto(id)
-);
+export const deletePhoto = createAsyncThunk<
+    {
+        albums: IAlbum[];
+        photoId: string;
+    },
+    string
+>("Photos/DeletePhoto", async (id: string) => Service.singleton.deletePhoto(id));
 
 export const PhotoAdaper = createEntityAdapter<IPhoto>({
     selectId: (model) => model.id,
@@ -122,6 +122,6 @@ export const selectPhotosNotInAlbum = createSelector(
         Album.selectedEntity ? Album.entities[Album.selectedEntity] : undefined,
     (photos, album) =>
         album ? photos.filter((p) => !album.photoIds.includes(p.id)) : undefined
-)
+);
 
 export default PhotoSlice.reducer;

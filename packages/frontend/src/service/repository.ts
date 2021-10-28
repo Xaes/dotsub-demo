@@ -56,6 +56,6 @@ export default class IndexedDBRepository<T extends IBaseEntity>
     }
 
     async update(entity: T): Promise<T> {
-        return this._store.setItem<T>(entity.id, entity)
+        return this._store.setItem<T>(entity.id, entity);
     }
 }

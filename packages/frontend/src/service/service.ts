@@ -7,7 +7,7 @@ import {
     IPhotoData,
     IService,
     IShareable,
-    Filter
+    Filter,
 } from "@dotsub-demo/common/common";
 import PhotoDataRepo from "./photo-data-repo";
 
@@ -39,7 +39,7 @@ export class Service implements IService {
     }
 
     getAlbumsByPhoto(photoId: string): Promise<IAlbum[]> {
-        return AlbumRepo.singleton.getAll(album => album.photoIds.includes(photoId));
+        return AlbumRepo.singleton.getAll((album) => album.photoIds.includes(photoId));
     }
 
     getPhotoById(photoId: string): Promise<IPhoto> {
@@ -65,15 +65,19 @@ export class Service implements IService {
         return AlbumRepo.singleton.delete(albumId);
     }
 
-    async deletePhoto(photoId: string): Promise<{ 
-        albums: IAlbum[]
-        photoId: string
+    async deletePhoto(photoId: string): Promise<{
+        albums: IAlbum[];
+        photoId: string;
     }> {
         const albums = await this.getAlbumsByPhoto(photoId);
-        const updatedAlbums = await Promise.all(albums.map(album => AlbumRepo.singleton.update({
-            ...album,
-            photoIds: album.photoIds.filter(id => id !== photoId)
-        })));
+        const updatedAlbums = await Promise.all(
+            albums.map((album) =>
+                AlbumRepo.singleton.update({
+                    ...album,
+                    photoIds: album.photoIds.filter((id) => id !== photoId),
+                })
+            )
+        );
         await PhotoRepo.singleton.delete(photoId);
         return { albums: updatedAlbums, photoId };
     }
@@ -84,9 +88,9 @@ export class Service implements IService {
 
     async includePhotosInAlbum(photosId: string[], albumId: string): Promise<IAlbum> {
         const album = await AlbumRepo.singleton.getById(albumId);
-        photosId.forEach(id => {
-            if (!album.photoIds.includes(id)) album.photoIds.push(id)
-        })
+        photosId.forEach((id) => {
+            if (!album.photoIds.includes(id)) album.photoIds.push(id);
+        });
         return AlbumRepo.singleton.update(album);
     }
 

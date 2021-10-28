@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { StateStatus } from "../../redux/slices/state-status";
 
 const AlbumAdd: FC = () => {
+    const [tags, setTags] = useState<Record<string, string>>({});
     const history = useHistory();
 
     const albumStatus = useSelector<RootState, StateStatus>(
@@ -46,6 +47,21 @@ const AlbumAdd: FC = () => {
         });
     };
 
+    const onTagAdd = (photoId: string, tag?: string) => {
+        setTags((prevState) => {
+            if (tag)
+                return {
+                    ...prevState,
+                    [photoId]: tag,
+                };
+            else {
+                const newState = { ...prevState };
+                delete newState[photoId];
+                return newState;
+            }
+        });
+    };
+
     const { registerValue, submit, items } = useForm({
         items: {
             name: {
@@ -53,17 +69,17 @@ const AlbumAdd: FC = () => {
                 value: "",
                 validate: { fn: ({ value }) => (value as string).length > 5 },
             },
-            tag: {
+            invites: {
                 required: false,
-                value: ""
-            }
+                value: "",
+            },
         },
         onSubmit: async ({ items }) => {
             const photosIds = files.map(async (file) => {
                 const { id } = await dispatch(
                     addPhoto({
                         photo: {
-                            tag: items.tag.value as string,
+                            tag: tags[file.file.name],
                             name: file.file.name,
                             extension: file.file.type,
                             size: file.file.size,
@@ -122,13 +138,13 @@ const AlbumAdd: FC = () => {
                     </div>
                     <div className="form-group">
                         <label>
-                            <span>Tag: </span>
+                            <span>Invite: </span>
                             <input
-                                placeholder="Tag..."
+                                placeholder="diego@xaes.dev, you@example.com..."
                                 type="text"
-                                value={items.tag.value as string}
+                                value={items.invites.value as string}
                                 onChange={({ target }) =>
-                                    registerValue("tag", target.value)
+                                    registerValue("invites", target.value)
                                 }
                             />
                         </label>
@@ -144,8 +160,9 @@ const AlbumAdd: FC = () => {
                 <div className="col-span-6">
                     <DropPhotos onDrop={onDrop} />
                     <UploadPreview
-                        images={files.map((f) => f.data)}
+                        photos={files.map((f) => ({ data: f.data, id: f.file.name }))}
                         onFileDelete={onFileDelete}
+                        onTagAdd={onTagAdd}
                     />
                 </div>
             </div>

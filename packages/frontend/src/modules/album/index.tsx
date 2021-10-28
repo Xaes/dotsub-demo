@@ -36,7 +36,7 @@ const Album: FC = () => {
     const onClickDelete = async () => {
         await dispatch(deleteAlbum(albumId)).unwrap();
         history.push(Config.LINKS.EXPLORE_BY_ALBUM);
-    }
+    };
 
     return (
         <section data-testid="album-section">
@@ -74,10 +74,12 @@ const Album: FC = () => {
                         <div className="col-span-3">
                             <SelectPhotos
                                 onSelect={(selectedIds) => {
-                                    dispatch(addPhotosToAlbum({
-                                        photoIds: selectedIds,
-                                        albumId: albumId
-                                    }))
+                                    dispatch(
+                                        addPhotosToAlbum({
+                                            photoIds: selectedIds,
+                                            albumId: albumId,
+                                        })
+                                    );
                                 }}
                             />
                         </div>
