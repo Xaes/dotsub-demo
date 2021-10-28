@@ -65,7 +65,7 @@ export const AlbumSlice = createSlice({
                 state.status = StateStatus.FINISHED;
             })
             .addCase(deletePhoto.fulfilled, (state, { payload }) => {
-                const { albums, photoId } = payload;
+                const { albums } = payload;
                 AlbumAdapter.upsertMany(state, albums);
                 state.status = StateStatus.FINISHED;
             })

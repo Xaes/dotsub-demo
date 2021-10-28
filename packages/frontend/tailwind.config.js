@@ -31,6 +31,9 @@ module.exports = {
             fontFamily: {
                 sans: ['"DM Sans"', "Helvetica", "Arial", "sans-serif"],
             },
+            minHeight: {
+                '1/2': '50vh',
+            }
         },
         container: {
             center: true,
