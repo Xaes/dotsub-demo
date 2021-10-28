@@ -20,16 +20,16 @@ const ImageCard: FC<IPhoto> = ({ tag, dataId, id, name, createdAt }) => {
     return (
         <Link
             to={Config.LINKS.IMAGE.replace(":photoId", id)}
-            className={`shadow-md rounded-2xl overflow-hidden hover:shadow-2xl bg-white-1 dark:bg-black-2 dark:hover:bg-transparent`}
+            className={`flex flex-col shadow-md rounded-2xl overflow-hidden hover:shadow-2xl bg-white-1 dark:bg-black-2 dark:hover:bg-transparent`}
         >
             <div className="w-full h-64">
                 <ImageHolder alt={`${name} - ${tag}`} image={image} />
             </div>
-            <div className="p-8 border border-white-1 dark:border-black-2 rounded-b-2xl">
+            <div className="p-8 border flex-grow flex flex-col justify-center border-white-1 dark:border-black-2 rounded-b-2xl">
                 <h6 className="text-black dark:text-white leading-none">{name}</h6>
                 <time
                     dateTime={createdAt}
-                    className="text-gray-500 font-normal text-xs leading-none"
+                    className="text-gray-500 font-normal text-xs leading-none mt-2"
                 >
                     {new Date(createdAt).toLocaleDateString("en-US", {
                         year: "numeric",
