@@ -3,7 +3,8 @@ import { RootState } from "../../redux/slices";
 import AlbumList from "../../components/album-list";
 import { useSelector, useDispatch } from "react-redux";
 import { StateStatus } from "../../redux/slices/state-status";
-import { fetchAlbums, selectAll } from "../../redux/slices/album";
+import { selectAll } from "../../redux/slices/album";
+import { fetchAlbums } from "../../redux/actions/album";
 
 const HomeAlbumList: FC = () => {
     const status = useSelector<RootState, StateStatus>((state) => state.Album.status);

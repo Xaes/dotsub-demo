@@ -5,8 +5,9 @@ import useImage from "../../hooks/useImage";
 import React, { FC, useEffect } from "react";
 import { RootState } from "../../redux/slices";
 import { IAlbum } from "../../../../@types/common";
+import { selectById } from "../../redux/slices/photo";
+import { fetchPhoto } from "../../redux/actions/photo";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPhoto, selectById } from "../../redux/slices/photo";
 import PhotographIcon from "@heroicons/react/outline/PhotographIcon";
 
 const Card: FC<IAlbum> = ({ id, name, createdAt, photoIds }) => {

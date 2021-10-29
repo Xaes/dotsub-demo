@@ -10,6 +10,7 @@ import {
     Filter,
 } from "@dotsub-demo/common/common";
 import PhotoDataRepo from "./photo-data-repo";
+import Album from "../modules/album";
 
 export class Service implements IService {
     private static _singleton: IService;
@@ -82,18 +83,42 @@ export class Service implements IService {
         return { albums: updatedAlbums, photoId };
     }
 
-    async shareAlbum(albumId: string, emails: string[]): Promise<IAlbum> {
+    async shareAlbum(
+        albumId: string,
+        emails: string[]
+    ): Promise<{
+        album: IAlbum;
+        photos: Record<string, Pick<IPhoto, "id" | "sharedWith">>;
+    }> {
         const album = await AlbumRepo.singleton.getById(albumId);
+        const albumPhotos = await this.getPhotosByAlbum(albumId);
         const shareList = album.sharedWith ? Array.from(album.sharedWith) : [];
 
         emails.forEach((email) => {
             if (!shareList.includes(email)) shareList.push(email);
         });
 
-        return AlbumRepo.singleton.update({
+        const updatedPhotos = await Promise.all(
+            albumPhotos.map((photo) => this.sharePhoto(photo.id, emails))
+        );
+        const updatedAlbum = await AlbumRepo.singleton.update({
             ...album,
             sharedWith: shareList,
         });
+
+        return {
+            album: updatedAlbum,
+            photos: updatedPhotos.reduce(
+                (obj, photo) => ({
+                    ...obj,
+                    [photo.id]: {
+                        id: photo.id,
+                        sharedWith: photo.sharedWith,
+                    },
+                }),
+                {}
+            ),
+        };
     }
 
     async sharePhoto(photoId: string, emails: string[]): Promise<IPhoto> {
@@ -108,6 +133,49 @@ export class Service implements IService {
             ...photo,
             sharedWith: shareList,
         });
+    }
+
+    async unsharePhoto(photoId: string, emails: string[]): Promise<IPhoto> {
+        const photo = await PhotoRepo.singleton.getById(photoId);
+
+        return PhotoRepo.singleton.update({
+            ...photo,
+            sharedWith: photo.sharedWith?.filter((share) => !emails.includes(share)),
+        });
+    }
+
+    async unshareAlbum(
+        albumId: string,
+        emails: string[]
+    ): Promise<{
+        album: IAlbum;
+        photos: Record<string, Pick<IPhoto, "id" | "sharedWith">>;
+    }> {
+        const album = await AlbumRepo.singleton.getById(albumId);
+        const albumPhotos = await this.getPhotosByAlbum(albumId);
+
+        const updatedPhotos = await Promise.all(
+            albumPhotos.map((photo) => this.unsharePhoto(photo.id, emails))
+        );
+
+        const updatedAlbum = await AlbumRepo.singleton.update({
+            ...album,
+            sharedWith: album.sharedWith?.filter((share) => !emails.includes(share)),
+        });
+
+        return {
+            album: updatedAlbum,
+            photos: updatedPhotos.reduce(
+                (obj, photo) => ({
+                    ...obj,
+                    [photo.id]: {
+                        id: photo.id,
+                        sharedWith: photo.sharedWith,
+                    },
+                }),
+                {}
+            ),
+        };
     }
 
     async includePhotosInAlbum(photosId: string[], albumId: string): Promise<IAlbum> {

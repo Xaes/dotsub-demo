@@ -7,14 +7,20 @@ import ShareList from "../../components/share-list";
 import ImageList from "../../components/image-list";
 import { useParams, useHistory } from "react-router";
 import PageHeader from "../../components/page-header";
+import { selectById } from "../../redux/slices/album";
 import { useSelector, useDispatch } from "react-redux";
 import React, { FC, useEffect, useState } from "react";
 import SelectPhotos from "../../components/select-photos";
 import TrashIcon from "@heroicons/react/outline/TrashIcon";
 import { StateStatus } from "../../redux/slices/state-status";
-import { fetchAlbum, deleteAlbum } from "../../redux/slices/album";
-import { fetchPhotosByAlbum, selectPhotosByAlbum } from "../../redux/slices/photo";
-import { addPhotosToAlbum, selectById, shareAlbum } from "../../redux/slices/album";
+import { selectPhotosByAlbum } from "../../redux/slices/photo";
+import { fetchPhotosByAlbum } from "../../redux/actions/photo";
+import {
+    addPhotosToAlbum,
+    shareAlbum,
+    deleteAlbum,
+    fetchAlbum,
+} from "../../redux/actions/album";
 
 const Album: FC = () => {
     const history = useHistory();

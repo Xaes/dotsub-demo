@@ -4,15 +4,22 @@ import { RootState } from "../../redux/slices";
 import Loading from "../../components/loading";
 import { Service } from "../../service/service";
 import { AppDispatch } from "../../redux/store";
+import ShareList from "../../components/share-list";
 import { useParams, useHistory } from "react-router";
 import PageHeader from "../../components/page-header";
+import { selectById } from "../../redux/slices/photo";
 import TagIcon from "@heroicons/react/outline/TagIcon";
 import React, { FC, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ImageHolder from "../../components/image-holder";
 import TrashIcon from "@heroicons/react/outline/TrashIcon";
 import { StateStatus } from "../../redux/slices/state-status";
-import { selectById, fetchPhoto, deletePhoto } from "../../redux/slices/photo";
+import {
+    fetchPhoto,
+    deletePhoto,
+    sharePhoto,
+    unsharePhoto,
+} from "../../redux/actions/photo";
 
 const labelClass = "font-bold text-gray-500";
 const valueClass = "text-black dark:text-white font-bold ml-2 transition-colors";
@@ -29,7 +36,7 @@ const Photo: FC = () => {
     useEffect(() => {
         if (photo) {
             const fetchImage = async () => {
-                const data = await Service.singleton.downloadImage(photo?.dataId);
+                const data = await Service.singleton.downloadImage(photo.dataId);
                 setImage(data);
             };
 
@@ -40,7 +47,7 @@ const Photo: FC = () => {
     useEffect(() => {
         dispatch(fetchPhoto(photoId));
         setDisplayNotFound(true);
-    }, [photoId]);
+    }, []);
 
     const createdAt =
         photo &&
@@ -53,6 +60,14 @@ const Photo: FC = () => {
     const onClickDelete = async () => {
         await dispatch(deletePhoto(photoId)).unwrap();
         history.push(Config.LINKS.EXPLORE_BY_IMAGES);
+    };
+
+    const onShareAdd = async (emails: string[]) => {
+        dispatch(sharePhoto({ emails, photoId }));
+    };
+
+    const onShareDelete = async (emails: string[]) => {
+        dispatch(unsharePhoto({ emails, photoId }));
     };
 
     return (
@@ -81,34 +96,41 @@ const Photo: FC = () => {
                                 className="shadow-md min-h-1/2 hover:shadow-2xl transition-all rounded-2xl select-none"
                             />
                         </div>
-                        <div className="col-span-3 space-y-4">
-                            <p className={labelClass}>
-                                Name:
-                                <span className={valueClass}>{photo.name}</span>
-                            </p>
-                            <p className={labelClass}>
-                                Created On:
-                                <span className={valueClass}>{createdAt}</span>
-                            </p>
-                            <p className={labelClass}>
-                                Extension:
-                                <span className={valueClass}>{photo.extension}</span>
-                            </p>
-                            <p className={labelClass}>
-                                Size:
-                                <span className={valueClass}>
-                                    {(photo.size / 1000000).toFixed(2)} MB
-                                </span>
-                            </p>
-                            <p className={`${labelClass} flex items-center`}>
-                                Tag:
-                                <span className="px-3 py-1.5 ml-2 inline-flex items-center rounded-xl bg-primary">
-                                    <TagIcon className="h-3.5 w-3.5 mr-2 text-white" />
-                                    <span className="text-white text-xs font-bold">
-                                        {photo.tag || "N/A"}
+                        <div className="col-span-3 space-y-12">
+                            <div className="space-y-4">
+                                <p className={labelClass}>
+                                    Name:
+                                    <span className={valueClass}>{photo.name}</span>
+                                </p>
+                                <p className={labelClass}>
+                                    Created On:
+                                    <span className={valueClass}>{createdAt}</span>
+                                </p>
+                                <p className={labelClass}>
+                                    Extension:
+                                    <span className={valueClass}>{photo.extension}</span>
+                                </p>
+                                <p className={labelClass}>
+                                    Size:
+                                    <span className={valueClass}>
+                                        {(photo.size / 1000000).toFixed(2)} MB
                                     </span>
-                                </span>
-                            </p>
+                                </p>
+                                <p className={`${labelClass} flex items-center`}>
+                                    Tag:
+                                    <span className="px-3 py-1.5 ml-2 inline-flex items-center rounded-xl bg-primary">
+                                        <TagIcon className="h-3.5 w-3.5 mr-2 text-white" />
+                                        <span className="text-white text-xs font-bold">
+                                            {photo.tag || "N/A"}
+                                        </span>
+                                    </span>
+                                </p>
+                            </div>
+                            <ShareList
+                                sharedWith={photo.sharedWith}
+                                onShareAdd={onShareAdd}
+                                onShareDelete={onShareDelete}
+                            />
                         </div>
                     </div>
                 </React.Fragment>

@@ -1,9 +1,9 @@
 import SelectItem from "./item";
 import Loading from "../loading";
 import { RootState } from "../../redux/slices";
-import { fetchPhotos } from "../../redux/slices/photo";
 import React, { FC, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { fetchPhotos } from "../../redux/actions/photo";
 import { StateStatus } from "../../redux/slices/state-status";
 import { selectPhotosNotInAlbum } from "../../redux/slices/photo";
 

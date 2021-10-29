@@ -5,7 +5,7 @@ import useForm, { validateEmail } from "../../hooks/useForm";
 
 const ShareList: FC<{
     sharedWith?: string[];
-    onShareDelete: (email: string) => void;
+    onShareDelete: (email: string[]) => void;
     onShareAdd: (email: string[]) => void;
 }> = ({ sharedWith, onShareAdd, onShareDelete }) => {
     const { items, submit, registerValue, reset } = useForm({
@@ -44,7 +44,7 @@ const ShareList: FC<{
                 <button
                     type="button"
                     className="pl-4 opacity-0 transition-all pointer-events-none select-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:select-all"
-                    onClick={() => onShareDelete(email)}
+                    onClick={() => onShareDelete([email])}
                 >
                     <XIcon className="h-5 w-5 fill-current text-red-600 transition-colors" />
                 </button>

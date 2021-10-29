@@ -1,47 +1,23 @@
 import { RootState, GenericState } from ".";
 import { StateStatus } from "./state-status";
-import { Service } from "../../service/service";
-import { EntityParams, IPhoto, IPhotoData, IAlbum } from "@dotsub-demo/common/common";
+import { IPhoto } from "@dotsub-demo/common/common";
 import {
     createSlice,
     createEntityAdapter,
-    createAsyncThunk,
     createSelector,
     isAnyOf,
+    EntityId,
 } from "@reduxjs/toolkit";
-
-export interface AddPhotoParms {
-    photo: Omit<EntityParams<IPhoto>, "dataId">;
-    photoData: EntityParams<IPhotoData>;
-}
-
-export const addPhoto = createAsyncThunk<IPhoto, AddPhotoParms>(
-    "Photo/AddPhoto",
-    async ({ photo, photoData }) => Service.singleton.addPhoto(photo, photoData)
-);
-
-export const fetchPhotosByAlbum = createAsyncThunk<IPhoto[], string>(
-    "Photo/FetchPhotos",
-    async (albumId) => Service.singleton.getPhotosByAlbum(albumId)
-);
-
-export const fetchPhotos = createAsyncThunk<IPhoto[]>(
-    "Photo/FetchPhotosByAlbum",
-    async () => Service.singleton.getAllPhotos()
-);
-
-export const fetchPhoto = createAsyncThunk<IPhoto, string>(
-    "Photo/FetchPhoto",
-    async (id: string) => Service.singleton.getPhotoById(id)
-);
-
-export const deletePhoto = createAsyncThunk<
-    {
-        albums: IAlbum[];
-        photoId: string;
-    },
-    string
->("Photos/DeletePhoto", async (id: string) => Service.singleton.deletePhoto(id));
+import {
+    addPhoto,
+    fetchPhoto,
+    fetchPhotos,
+    deletePhoto,
+    sharePhoto,
+    unsharePhoto,
+    fetchPhotosByAlbum,
+} from "../actions/photo";
+import { shareAlbum } from "../actions/album";
 
 export const PhotoAdaper = createEntityAdapter<IPhoto>({
     selectId: (model) => model.id,
@@ -78,13 +54,27 @@ export const PhotoSlice = createSlice({
                 PhotoAdaper.removeOne(state, payload.photoId);
                 state.status = StateStatus.FINISHED;
             })
+            .addCase(sharePhoto.fulfilled, (state, { payload }) => {
+                PhotoAdaper.upsertOne(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(unsharePhoto.fulfilled, (state, { payload }) => {
+                PhotoAdaper.upsertOne(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
+            .addCase(shareAlbum.fulfilled, (state, { payload }) => {
+                PhotoAdaper.upsertMany(state, payload.photos as Record<EntityId, IPhoto>);
+                state.status = StateStatus.FINISHED;
+            })
             .addMatcher(
                 isAnyOf(
                     addPhoto.pending,
                     fetchPhotos.pending,
                     fetchPhotosByAlbum.pending,
                     fetchPhoto.pending,
-                    deletePhoto.pending
+                    deletePhoto.pending,
+                    sharePhoto.pending,
+                    unsharePhoto.pending
                 ),
                 (state) => {
                     state.status = StateStatus.LOADING;
@@ -96,7 +86,9 @@ export const PhotoSlice = createSlice({
                     fetchPhotos.rejected,
                     fetchPhotosByAlbum.rejected,
                     fetchPhoto.rejected,
-                    deletePhoto.rejected
+                    deletePhoto.rejected,
+                    sharePhoto.pending,
+                    unsharePhoto.pending
                 ),
                 (state) => {
                     state.status = StateStatus.ERROR;

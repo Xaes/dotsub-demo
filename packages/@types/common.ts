@@ -44,8 +44,16 @@ export interface IService {
     getPhotoById(photoId: string): Promise<IPhoto>;
     addPhoto(photo: Omit<EntityParams<IPhoto>, "dataId">, data: EntityParams<IPhotoData>): Promise<IPhoto>;
     addAlbum(album: EntityParams<IAlbum>): Promise<IAlbum>;
-    shareAlbum(albumId: string, emails: string[]): Promise<IAlbum>;
+    shareAlbum(albumId: string, emails: string[]): Promise<{
+        album: IAlbum,
+        photos: Record<string, Pick<IPhoto, "id" | "sharedWith">>
+    }>;
+    unshareAlbum(albumId: string, emails: string[]): Promise<{
+        album: IAlbum,
+        photos: Record<string, Pick<IPhoto, "id" | "sharedWith">>
+    }>;
     sharePhoto(photoId: string, emails: string[]): Promise<IPhoto>;
+    unsharePhoto(photoId: string, emails: string[]): Promise<IPhoto>;
     includePhotosInAlbum(photosId: string[], albumId: string): Promise<IAlbum>
     deleteAlbum(albumId: string): Promise<void>;
     deletePhoto(photoId: string): Promise<{ 
