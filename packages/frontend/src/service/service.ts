@@ -6,11 +6,9 @@ import {
     IPhoto,
     IPhotoData,
     IService,
-    IShareable,
     Filter,
 } from "@dotsub-demo/common/common";
 import PhotoDataRepo from "./photo-data-repo";
-import Album from "../modules/album";
 
 export class Service implements IService {
     private static _singleton: IService;

@@ -135,7 +135,7 @@ export default ({ items, onSubmit }: IFormProps): IFormReturn => {
 
 // Custom Validators.
 
-export const validateEmail = (value?: FormValue) => {
+export const validateEmail = (value?: FormValue): boolean => {
     if (value) {
         const exp =
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
