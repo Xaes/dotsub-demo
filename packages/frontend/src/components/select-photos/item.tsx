@@ -43,7 +43,7 @@ const SelectItem: FC<{
                     </div>
                 </div>
             </div>
-            <div className="text-left">
+            <div className="text-left" style={{ flex: "1 0 70%" }}>
                 <p
                     className={`text-sm transition-colors ${
                         isSelected ? "text-primary" : "text-gray-500"
