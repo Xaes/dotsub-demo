@@ -56,7 +56,7 @@
         "build": "craco build",
         "build-ci": "CI=false craco build",
         "test": "craco test",
-        "test-coverage": "yarn test --coverage",
+        "test-coverage": "yarn test --coverage --watchAll",
         "eject": "react-scripts eject",
         "format": "prettier --write \"**/*.+(ts|tsx|js|jsx|json|html|css|md)\"",
         "lint": "eslint .",
