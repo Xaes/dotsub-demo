@@ -82,8 +82,32 @@ export class Service implements IService {
         return { albums: updatedAlbums, photoId };
     }
 
-    share(shareableEntity: IShareable): Promise<string[]> {
-        throw new Error("Method not implemented.");
+    async shareAlbum(albumId: string, emails: string[]): Promise<IAlbum> {
+        const album = await AlbumRepo.singleton.getById(albumId);
+        const shareList = album.sharedWith ? Array.from(album.sharedWith) : [];
+
+        emails.forEach((email) => {
+            if (!shareList.includes(email)) shareList.push(email);
+        });
+
+        return AlbumRepo.singleton.update({
+            ...album,
+            sharedWith: shareList,
+        });
+    }
+
+    async sharePhoto(photoId: string, emails: string[]): Promise<IPhoto> {
+        const photo = await PhotoRepo.singleton.getById(photoId);
+        const shareList = photo.sharedWith ? Array.from(photo.sharedWith) : [];
+
+        emails.forEach((email) => {
+            if (!shareList.includes(email)) shareList.push(email);
+        });
+
+        return PhotoRepo.singleton.update({
+            ...photo,
+            sharedWith: shareList,
+        });
     }
 
     async includePhotosInAlbum(photosId: string[], albumId: string): Promise<IAlbum> {

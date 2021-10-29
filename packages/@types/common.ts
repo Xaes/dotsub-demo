@@ -5,10 +5,9 @@ export interface IBaseEntity {
 
 export interface IShareable { 
     sharedWith?: string[]
-    shareWith(email: string): Promise<string[]>
 }
 
-export interface IPhoto extends IBaseEntity {
+export interface IPhoto extends IBaseEntity, IShareable {
     dataId: string;
     name: string;
     extension: string;
@@ -20,7 +19,7 @@ export interface IPhotoData extends IBaseEntity {
     data: string
 }
 
-export interface IAlbum extends IBaseEntity {
+export interface IAlbum extends IBaseEntity, IShareable {
     name: string,
     photoIds: string[]
 }
@@ -45,7 +44,8 @@ export interface IService {
     getPhotoById(photoId: string): Promise<IPhoto>;
     addPhoto(photo: Omit<EntityParams<IPhoto>, "dataId">, data: EntityParams<IPhotoData>): Promise<IPhoto>;
     addAlbum(album: EntityParams<IAlbum>): Promise<IAlbum>;
-    share(shareableEntity: IShareable): Promise<string[]>;
+    shareAlbum(albumId: string, emails: string[]): Promise<IAlbum>;
+    sharePhoto(photoId: string, emails: string[]): Promise<IPhoto>;
     includePhotosInAlbum(photosId: string[], albumId: string): Promise<IAlbum>
     deleteAlbum(albumId: string): Promise<void>;
     deletePhoto(photoId: string): Promise<{ 

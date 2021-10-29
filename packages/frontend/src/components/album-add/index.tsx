@@ -2,7 +2,6 @@ import Loading from "../loading";
 import Config from "../../config";
 import { toBase64 } from "../../utils";
 import DropPhotos from "../drop-photos";
-import useForm from "../../hooks/useForm";
 import { useHistory } from "react-router";
 import React, { FC, useState } from "react";
 import UploadPreview from "../upload-preview";
@@ -11,6 +10,7 @@ import { AppDispatch } from "../../redux/store";
 import { addPhoto } from "../../redux/slices/photo";
 import { addAlbum } from "../../redux/slices/album";
 import { useDispatch, useSelector } from "react-redux";
+import useForm, { validateEmail } from "../../hooks/useForm";
 import { StateStatus } from "../../redux/slices/state-status";
 
 const AlbumAdd: FC = () => {
@@ -72,6 +72,15 @@ const AlbumAdd: FC = () => {
             invites: {
                 required: false,
                 value: "",
+                validate: {
+                    fn: ({ value }) => {
+                        if (value) {
+                            const emails = (value as string).split(",");
+                            return emails.every((e) => validateEmail(e.trim()));
+                        }
+                        return true;
+                    },
+                },
             },
         },
         onSubmit: async ({ items }) => {
@@ -95,6 +104,7 @@ const AlbumAdd: FC = () => {
                     addAlbum({
                         name: items.name.value as string,
                         photoIds,
+                        sharedWith: (items.invites.value as string).split(","),
                     })
                 ).unwrap();
                 return id;
@@ -148,6 +158,13 @@ const AlbumAdd: FC = () => {
                                 }
                             />
                         </label>
+                        {items.invites.hasError && (
+                            <span className="error-feedback mt-2">
+                                Emails are invalid. If you want to input multiple
+                                invitations, you can use a comma to separate them. Ex:
+                                diego@xaes.dev, you@example.com.
+                            </span>
+                        )}
                     </div>
                     <button
                         type="submit"

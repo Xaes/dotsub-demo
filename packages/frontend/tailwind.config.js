@@ -42,6 +42,7 @@ module.exports = {
     variants: {
         extend: {
             borderColor: ["active", "focus"],
+            pointerEvents: ["group-hover"],
         },
     },
     plugins: [],

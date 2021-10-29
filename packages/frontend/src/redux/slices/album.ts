@@ -42,6 +42,16 @@ export const deleteAlbum = createAsyncThunk<string, string>(
     }
 );
 
+export const shareAlbum = createAsyncThunk<
+    IAlbum,
+    {
+        albumId: string;
+        emails: string[];
+    }
+>("Album/ShareAlbum", async ({ albumId, emails }) =>
+    Service.singleton.shareAlbum(albumId, emails)
+);
+
 export const AlbumAdapter = createEntityAdapter<IAlbum>({
     selectId: (model) => model.id,
 });
@@ -82,13 +92,18 @@ export const AlbumSlice = createSlice({
                 AlbumAdapter.upsertOne(state, payload);
                 state.status = StateStatus.FINISHED;
             })
+            .addCase(shareAlbum.fulfilled, (state, { payload }) => {
+                AlbumAdapter.upsertOne(state, payload);
+                state.status = StateStatus.FINISHED;
+            })
             .addMatcher(
                 isAnyOf(
                     fetchAlbum.pending,
                     fetchAlbums.pending,
                     fetchAlbum.pending,
                     deleteAlbum.pending,
-                    addPhotosToAlbum.pending
+                    addPhotosToAlbum.pending,
+                    shareAlbum.pending
                 ),
                 (state) => {
                     state.status = StateStatus.LOADING;
