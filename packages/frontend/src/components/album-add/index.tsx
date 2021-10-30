@@ -8,7 +8,7 @@ import UploadPreview from "../upload-preview";
 import { RootState } from "../../redux/slices";
 import { AppDispatch } from "../../redux/store";
 import { addPhoto } from "../../redux/actions/photo";
-import { addAlbum } from "../../redux/actions/album";
+import { addAlbum, shareAlbum } from "../../redux/actions/album";
 import { useDispatch, useSelector } from "react-redux";
 import useForm, { validateEmail } from "../../hooks/useForm";
 import { StateStatus } from "../../redux/slices/state-status";
@@ -99,17 +99,25 @@ const AlbumAdd: FC = () => {
                 return id;
             });
 
+            const invites = items.invites.value as string;
+            const inviteList = invites.length > 0 ? invites.split(",") : undefined;
+
             const albumId = await Promise.all(photosIds).then(async (photoIds) => {
-                const invites = items.invites.value as string;
+                
                 const { id } = await dispatch(
                     addAlbum({
                         name: items.name.value as string,
                         photoIds,
-                        sharedWith: invites.length > 0 ? invites.split(",") : undefined,
+                        sharedWith: inviteList
                     })
                 ).unwrap();
                 return id;
             });
+
+            if (inviteList) await dispatch(shareAlbum({
+                albumId,
+                emails: inviteList
+            }))
 
             history.push(Config.LINKS.ALBUM.replace(":albumId", albumId));
         },
