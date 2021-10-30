@@ -37,7 +37,7 @@ const ShareList: FC<{
             <div className="flex items-center group" key={email}>
                 <div style={{ flex: "1 0 80%" }} className="flex items-center">
                     <UserIcon className="h-5 w-5 mr-4 text-primary" />
-                    <p className="font-bold text-black dark:text-white transition-colors">
+                    <p className="font-bold break-all text-black dark:text-white transition-colors" style={{ width: "calc(100% - 20px)" }}>
                         {email}
                     </p>
                 </div>
