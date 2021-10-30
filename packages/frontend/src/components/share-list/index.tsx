@@ -54,7 +54,7 @@ const ShareList: FC<{
 
     return (
         <div className="space-y-8">
-            <h4 className="mb-8 text-black dark:text-white transition-colors">
+            <h4 className="mb-8 text-xl xl:text-2xl text-black dark:text-white transition-colors">
                 Shared With:
             </h4>
             <div className="space-y-4">{emailItems}</div>

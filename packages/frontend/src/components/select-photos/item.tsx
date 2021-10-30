@@ -24,12 +24,12 @@ const SelectItem: FC<{
         <button
             type="button"
             key={photo.id}
-            className="flex group items-center space-x-4"
+            className="flex group w-full items-center space-x-4"
             onClick={onSelect}
             role="button"
         >
             <div
-                className="flex-grow relative rounded-md overflow-hidden h-20 shadow-md group-hover:shadow-2xl transition-all"
+                className="h-32 flex-full xl:flex-grow relative rounded-md overflow-hidden xl:h-20 shadow-md group-hover:shadow-2xl transition-all"
                 style={{ flex: "1 0 30%" }}
             >
                 <ImageHolder image={image} alt={photo.name} />
@@ -43,7 +43,7 @@ const SelectItem: FC<{
                     </div>
                 </div>
             </div>
-            <div className="text-left" style={{ flex: "1 0 70%" }}>
+            <div className="text-left block lg:hidden xl:block" style={{ flex: "1 0 70%" }}>
                 <p
                     className={`text-sm transition-colors ${
                         isSelected ? "text-primary" : "text-gray-500"

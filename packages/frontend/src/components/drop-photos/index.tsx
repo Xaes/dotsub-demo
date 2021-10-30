@@ -20,15 +20,15 @@ const DropPhotos: FC<{ onDrop: <T extends File>(files: T[]) => void }> = ({ onDr
                 {...getRootProps()}
             >
                 <input {...getInputProps()} className="h-full" />
-                <div className="drop-zone-content absolute flex inset-20 justify-center items-center">
+                <div className="drop-zone-content absolute flex inset-8 lg:inset-20 justify-center items-center">
                     <div className="text-center w-full">
-                        <UploadIcon className="transition-colors w-12 h-12 mx-auto text-gray-500 group-hover:text-primary" />
+                        <UploadIcon className="transition-colors w-8 h-8 lg:w-12 lg:h-12 mx-auto text-gray-500 group-hover:text-primary" />
                         {!isDragActive && (
                             <React.Fragment>
-                                <h6 className="text-gray-500 mt-4">
+                                <h6 className="text-gray-500 mt-4 mb-2 leading-5">
                                     Drop or select your images here
                                 </h6>
-                                <p className="text-gray-500">
+                                <p className="text-gray-500 leading-5">
                                     Accepted Files: {acceptedFiles.join(", ")}
                                 </p>
                             </React.Fragment>
