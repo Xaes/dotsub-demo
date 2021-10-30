@@ -73,7 +73,7 @@ const ShareList: FC<{
                         </span>
                     )}
                     <button
-                        type="submit"
+                        type="button"
                         className="button primary-button mt-4 w-full"
                         onClick={submit}
                     >
