@@ -2,6 +2,7 @@ import Config from "../../config";
 import { Link } from "react-router-dom";
 import ImageHolder from "../image-holder";
 import { Service } from "../../service/service";
+import { cancelablePromise } from "../../utils";
 import { IPhoto } from "@dotsub-demo/common/common";
 import React, { FC, useEffect, useState } from "react";
 import TagIcon from "@heroicons/react/outline/TagIcon";
@@ -10,12 +11,12 @@ const ImageCard: FC<IPhoto> = ({ tag, dataId, id, name, createdAt }) => {
     const [image, setImage] = useState<string>();
 
     useEffect(() => {
-        const fetchImage = async () => {
+        const controller = new AbortController();
+        cancelablePromise(async () => {
             const data = await Service.singleton.downloadImage(dataId);
             setImage(data);
-        };
-
-        fetchImage();
+        }, controller.signal)();
+        return () => controller.abort();
     }, [dataId]);
 
     return (
@@ -33,7 +34,9 @@ const ImageCard: FC<IPhoto> = ({ tag, dataId, id, name, createdAt }) => {
                 <ImageHolder alt={`${name} - ${tag}`} image={image} />
             </div>
             <div className="p-4 sm:p-8 border flex-grow flex flex-col justify-center border-white-1 dark:border-black-2 rounded-b-2xl">
-                <h6 className="text-sm sm:text-lg text-black dark:text-white leading-none sm:leading-none">{name}</h6>
+                <h6 className="text-sm sm:text-lg text-black dark:text-white leading-none sm:leading-none">
+                    {name}
+                </h6>
                 <time
                     dateTime={createdAt}
                     className="text-gray-500 font-normal text-xs leading-none mt-2"

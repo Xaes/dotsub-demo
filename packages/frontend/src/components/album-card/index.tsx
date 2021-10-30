@@ -4,6 +4,7 @@ import ImageHolder from "../image-holder";
 import useImage from "../../hooks/useImage";
 import React, { FC, useEffect } from "react";
 import { RootState } from "../../redux/slices";
+import { cancelablePromise } from "../../utils";
 import { IAlbum } from "../../../../@types/common";
 import { selectById } from "../../redux/slices/photo";
 import { fetchPhoto } from "../../redux/actions/photo";
@@ -15,8 +16,9 @@ const Card: FC<IAlbum> = ({ id, name, createdAt, photoIds }) => {
 
     useEffect(() => {
         if (photoIds[0]) {
-            const fetch = async () => await dispatch(fetchPhoto(photoIds[0]));
-            fetch();
+            const controller = new AbortController();
+            cancelablePromise(async () => await dispatch(fetchPhoto(photoIds[0])), controller.signal)();
+            return () => controller.abort();
         }
     }, []);
 

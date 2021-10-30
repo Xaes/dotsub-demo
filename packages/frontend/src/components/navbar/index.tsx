@@ -24,10 +24,7 @@ const Navbar: FC = () => {
                     </h5>
                 </Link>
                 <div className="flex items-center space-x-5 md:space-x-10">
-                    <Link
-                        className="hidden md:block"
-                        to={Config.LINKS.NEW_ALBUM}
-                    >
+                    <Link className="hidden md:block" to={Config.LINKS.NEW_ALBUM}>
                         Create a new album
                     </Link>
                     <Link

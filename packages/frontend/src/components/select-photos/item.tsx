@@ -3,6 +3,7 @@ import { Service } from "../../service/service";
 import { IPhoto } from "@dotsub-demo/common/common";
 import React, { FC, useState, useEffect } from "react";
 import CheckIcon from "@heroicons/react/outline/CheckIcon";
+import { cancelablePromise } from "../../utils";
 
 const SelectItem: FC<{
     photo: IPhoto;
@@ -12,12 +13,12 @@ const SelectItem: FC<{
     const [image, setImage] = useState<string>();
 
     useEffect(() => {
-        const fetchImage = async () => {
+        const controller = new AbortController();
+        cancelablePromise(async () => {
             const data = await Service.singleton.downloadImage(photo.dataId);
             setImage(data);
-        };
-
-        fetchImage();
+        }, controller.signal)();
+        return () => controller.abort();
     }, [photo]);
 
     return (
@@ -43,7 +44,10 @@ const SelectItem: FC<{
                     </div>
                 </div>
             </div>
-            <div className="text-left block lg:hidden xl:block" style={{ flex: "1 0 70%" }}>
+            <div
+                className="text-left block lg:hidden xl:block"
+                style={{ flex: "1 0 70%" }}
+            >
                 <p
                     className={`text-sm transition-colors ${
                         isSelected ? "text-primary" : "text-gray-500"

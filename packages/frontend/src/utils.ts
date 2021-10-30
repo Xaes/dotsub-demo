@@ -17,3 +17,29 @@ export const toBase64 = (file: Blob): Promise<string> =>
         reader.onload = () => resolve(reader.result as string);
         reader.onerror = (error) => reject(error);
     });
+
+export const cancelablePromise = (
+    func: () => Promise<any>,
+    signal: AbortSignal
+): (() => Promise<any> | Promise<never>) => {
+    if (signal.aborted) return () => Promise.reject("Aborted");
+
+    return () =>
+        new Promise<any>((resolve, reject) => {
+            const abortHandler = () => {
+                reject("Aborted");
+            };
+
+            signal.addEventListener("abort", abortHandler);
+
+            return func().then((any) => {
+                signal.removeEventListener("abort", abortHandler);
+                resolve(any);
+                return any;
+            })
+    }).catch(error => {
+        /*eslint-disable*/
+        console.debug(error);
+        return error;
+    });
+};

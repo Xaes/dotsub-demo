@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchPhotos } from "../../redux/actions/photo";
 import { StateStatus } from "../../redux/slices/state-status";
 import { selectPhotosNotInAlbum } from "../../redux/slices/photo";
+import { cancelablePromise } from "../../utils";
 
 const SelectPhotos: FC<{
     onSelect: (photoIds: string[]) => void;
@@ -26,8 +27,10 @@ const SelectPhotos: FC<{
     };
 
     useEffect(() => {
-        dispatch(fetchPhotos());
+        const controller = new AbortController();
+        cancelablePromise(async () => await dispatch(fetchPhotos()), controller.signal)();
         setDisplayResults(true);
+        return () => controller.abort();
     }, []);
 
     const photoItems = photosNotIncluded?.map((photo) => (

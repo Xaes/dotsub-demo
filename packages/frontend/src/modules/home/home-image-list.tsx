@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { RootState } from "../../redux/slices";
+import { cancelablePromise } from "../../utils";
 import ImageList from "../../components/image-list";
 import { selectAll } from "../../redux/slices/photo";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,7 +13,9 @@ const HomeImageList: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchPhotos());
+        const controller = new AbortController();
+        cancelablePromise(async () => await dispatch(fetchPhotos()), controller.signal)();
+        return () => controller.abort();
     }, []);
 
     return <ImageList photos={images} loading={status === StateStatus.LOADING} />;

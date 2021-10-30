@@ -103,21 +103,23 @@ const AlbumAdd: FC = () => {
             const inviteList = invites.length > 0 ? invites.split(",") : undefined;
 
             const albumId = await Promise.all(photosIds).then(async (photoIds) => {
-                
                 const { id } = await dispatch(
                     addAlbum({
                         name: items.name.value as string,
                         photoIds,
-                        sharedWith: inviteList
+                        sharedWith: inviteList,
                     })
                 ).unwrap();
                 return id;
             });
 
-            if (inviteList) await dispatch(shareAlbum({
-                albumId,
-                emails: inviteList
-            }))
+            if (inviteList)
+                await dispatch(
+                    shareAlbum({
+                        albumId,
+                        emails: inviteList,
+                    })
+                );
 
             history.push(Config.LINKS.ALBUM.replace(":albumId", albumId));
         },

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { StateStatus } from "../../redux/slices/state-status";
 import { selectAll } from "../../redux/slices/album";
 import { fetchAlbums } from "../../redux/actions/album";
+import { cancelablePromise } from "../../utils";
 
 const HomeAlbumList: FC = () => {
     const status = useSelector<RootState, StateStatus>((state) => state.Album.status);
@@ -12,7 +13,9 @@ const HomeAlbumList: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchAlbums());
+        const controller = new AbortController();
+        cancelablePromise(async () => await dispatch(fetchAlbums()), controller.signal)();
+        return () => controller.abort();
     }, []);
 
     return <AlbumList albums={albums} loading={status === StateStatus.LOADING} />;

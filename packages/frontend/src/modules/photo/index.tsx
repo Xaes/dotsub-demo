@@ -4,6 +4,7 @@ import { RootState } from "../../redux/slices";
 import Loading from "../../components/loading";
 import { Service } from "../../service/service";
 import { AppDispatch } from "../../redux/store";
+import { cancelablePromise } from "../../utils";
 import ShareList from "../../components/share-list";
 import { useParams, useHistory } from "react-router";
 import PageHeader from "../../components/page-header";
@@ -35,18 +36,20 @@ const Photo: FC = () => {
 
     useEffect(() => {
         if (photo) {
-            const fetchImage = async () => {
+            const controller = new AbortController();
+            cancelablePromise(async () => {
                 const data = await Service.singleton.downloadImage(photo.dataId);
                 setImage(data);
-            };
-
-            fetchImage();
+            }, controller.signal)();
+            return () => controller.abort();            
         }
     }, [photo]);
 
     useEffect(() => {
-        dispatch(fetchPhoto(photoId));
+        const controller = new AbortController();
+        cancelablePromise(async () => dispatch(fetchPhoto(photoId)), controller.signal)();
         setDisplayNotFound(true);
+        return () => controller.abort();
     }, []);
 
     const createdAt =

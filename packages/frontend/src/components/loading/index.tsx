@@ -14,7 +14,7 @@ const Loading: FC<{ loading: boolean }> = ({ loading, children }) => {
                             <ReactComponent className="animate-spin h-8 w-8 fill-current text-primary" />
                         </div>
                     </React.Fragment>
-                ): (
+                ) : (
                     <div className="flex items-center justify-center p-12">
                         <ReactComponent className="animate-spin h-8 w-8 fill-current text-primary" />
                     </div>

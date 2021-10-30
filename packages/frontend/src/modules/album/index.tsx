@@ -21,6 +21,7 @@ import {
     deleteAlbum,
     fetchAlbum,
 } from "../../redux/actions/album";
+import { cancelablePromise } from "../../utils";
 
 const Album: FC = () => {
     const history = useHistory();
@@ -35,9 +36,13 @@ const Album: FC = () => {
     ]);
 
     useEffect(() => {
-        dispatch(fetchAlbum(albumId));
-        dispatch(fetchPhotosByAlbum(albumId));
+        const controller = new AbortController();
+        cancelablePromise(async () => {
+            await dispatch(fetchAlbum(albumId));
+            await dispatch(fetchPhotosByAlbum(albumId));
+        }, controller.signal)();
         setDisplayNotFound(true);
+        return () => controller.abort();
     }, [albumId, album]);
 
     const onClickDelete = async () => {
@@ -59,11 +64,15 @@ const Album: FC = () => {
                     />
                     <div className="flex justify-between items-center mb-8 lg:mb-16">
                         <div className="flex items-center capitalize lg:normal-case">
-                            <p className="text-black dark:text-white text-lg lg:text-xl hidden lg:inline-block mr-3 font-medium">A collection of</p>
+                            <p className="text-black dark:text-white text-lg lg:text-xl hidden lg:inline-block mr-3 font-medium">
+                                A collection of
+                            </p>
                             <p className="text-white bg-primary text-md w-9 h-9 rounded-full inline-flex items-center justify-center">
                                 {album.photoIds.length}
                             </p>
-                            <p className="text-black dark:text-white ml-3 text-lg lg:text-xl font-medium">photo</p>
+                            <p className="text-black dark:text-white ml-3 text-lg lg:text-xl font-medium">
+                                photo
+                            </p>
                         </div>
                         <button
                             type="button"

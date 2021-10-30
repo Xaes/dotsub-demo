@@ -17,7 +17,9 @@ const UploadPreview: FC<{
     ));
 
     return photos && photos.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 mt-8 gap-8 lg:gap-12">{thumbs}</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 mt-8 gap-8 lg:gap-12">
+            {thumbs}
+        </div>
     ) : null;
 };
 
