@@ -78,7 +78,7 @@ const Photo: FC = () => {
                         title={`Photo: ${photo.name}`}
                         subtitle={`Uploaded on: ${createdAt}`}
                     />
-                    <div className="flex justify-start items-center mb-16">
+                    <div className="flex justify-start items-center mb-8 lg:mb-16">
                         <button
                             type="button"
                             role="button"
@@ -88,15 +88,15 @@ const Photo: FC = () => {
                             <TrashIcon className="h-5 w-5" />
                         </button>
                     </div>
-                    <div className="grid grid-cols-12 gap-12">
-                        <div className="col-span-9">
+                    <div className="grid grid-cols-12 gap-0 lg:gap-12">
+                        <div className="col-span-12 lg:col-span-9">
                             <ImageHolder
                                 alt={photo.name}
                                 image={image}
                                 className="shadow-md min-h-1/2 hover:shadow-2xl transition-all rounded-2xl select-none"
                             />
                         </div>
-                        <div className="col-span-3 space-y-12">
+                        <div className="col-span-12 lg:col-span-3 space-y-12 mt-16 lg:mt-0">
                             <div className="space-y-4">
                                 <p className={labelClass}>
                                     Name:

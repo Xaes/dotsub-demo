@@ -25,15 +25,15 @@ const ImageCard: FC<IPhoto> = ({ tag, dataId, id, name, createdAt }) => {
         >
             <div className="w-full h-64 relative">
                 {tag && (
-                    <div className="px-3 py-1.5 absolute top-8 left-8 flex items-center rounded-xl bg-primary">
+                    <div className="px-2 sm:px-3 py-1 sm:py-1.5 absolute top-4 left-4 sm:top-8 sm:left-8 flex items-center rounded-xl bg-primary">
                         <TagIcon className="h-3.5 w-3.5 mr-2 text-white" />
                         <span className="text-white text-xs font-bold">{tag}</span>
                     </div>
                 )}
                 <ImageHolder alt={`${name} - ${tag}`} image={image} />
             </div>
-            <div className="p-8 border flex-grow flex flex-col justify-center border-white-1 dark:border-black-2 rounded-b-2xl">
-                <h6 className="text-black dark:text-white leading-none">{name}</h6>
+            <div className="p-4 sm:p-8 border flex-grow flex flex-col justify-center border-white-1 dark:border-black-2 rounded-b-2xl">
+                <h6 className="text-sm sm:text-lg text-black dark:text-white leading-none sm:leading-none">{name}</h6>
                 <time
                     dateTime={createdAt}
                     className="text-gray-500 font-normal text-xs leading-none mt-2"

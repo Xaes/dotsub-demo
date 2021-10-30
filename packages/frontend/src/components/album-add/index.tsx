@@ -100,11 +100,12 @@ const AlbumAdd: FC = () => {
             });
 
             const albumId = await Promise.all(photosIds).then(async (photoIds) => {
+                const invites = items.invites.value as string;
                 const { id } = await dispatch(
                     addAlbum({
                         name: items.name.value as string,
                         photoIds,
-                        sharedWith: (items.invites.value as string).split(","),
+                        sharedWith: invites.length > 0 ? invites.split(",") : undefined,
                     })
                 ).unwrap();
                 return id;
@@ -120,10 +121,10 @@ const AlbumAdd: FC = () => {
                 albumStatus === StateStatus.LOADING || photoStatus === StateStatus.LOADING
             }
         >
-            <div className="grid grid-cols-10 gap-24">
+            <div className="grid grid-cols-10 gap-0 lg:gap-16">
                 <form
                     role="form"
-                    className="col-span-4"
+                    className="col-span-10 lg:col-span-4"
                     data-testid="create-album-form"
                     onSubmit={(event) => event.preventDefault()}
                 >
@@ -174,7 +175,7 @@ const AlbumAdd: FC = () => {
                         Create
                     </button>
                 </form>
-                <div className="col-span-6">
+                <div className="col-span-10 lg:col-span-6 mt-16 lg:mt-0">
                     <DropPhotos onDrop={onDrop} />
                     <UploadPreview
                         photos={files.map((f) => ({ data: f.data, id: f.file.name }))}

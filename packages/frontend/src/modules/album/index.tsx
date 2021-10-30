@@ -57,14 +57,14 @@ const Album: FC = () => {
                         title={`Album: ${album?.name}`}
                         subtitle="Browse pictures"
                     />
-                    <div className="flex justify-between items-center mb-16">
-                        <h6 className="text-black dark:text-white font-medium">
-                            A collection of
-                            <span className="text-white bg-primary mx-3 text-md w-9 h-9 rounded-full inline-flex items-center justify-center">
+                    <div className="flex justify-between items-center mb-8 lg:mb-16">
+                        <div className="flex items-center capitalize lg:normal-case">
+                            <p className="text-black dark:text-white text-lg lg:text-xl hidden lg:inline-block mr-3 font-medium">A collection of</p>
+                            <p className="text-white bg-primary text-md w-9 h-9 rounded-full inline-flex items-center justify-center">
                                 {album.photoIds.length}
-                            </span>
-                            photos
-                        </h6>
+                            </p>
+                            <p className="text-black dark:text-white ml-3 text-lg lg:text-xl font-medium">photo</p>
+                        </div>
                         <button
                             type="button"
                             role="button"
@@ -74,15 +74,14 @@ const Album: FC = () => {
                             <TrashIcon className="h-5 w-5" />
                         </button>
                     </div>
-                    <div className="grid grid-cols-12 gap-12">
-                        <div className="col-span-9">
+                    <div className="grid grid-cols-12 gap-0 lg:gap-12">
+                        <div className="col-span-12 lg:col-span-9">
                             <ImageList
-                                gridClassName="grid-cols-3"
                                 photos={photos}
                                 loading={photosStatus === StateStatus.LOADING}
                             />
                         </div>
-                        <div className="col-span-3 space-y-16">
+                        <div className="col-span-12 lg:col-span-3 space-y-16 mt-16 lg:mt-0">
                             <SelectPhotos
                                 onSelect={(selectedIds) => {
                                     dispatch(

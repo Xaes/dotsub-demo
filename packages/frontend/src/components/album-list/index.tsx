@@ -21,7 +21,7 @@ const AlbumList: FC<{
     if (loading || !displayEmpty) return <Loading loading={true} />;
     else if (albums && albums.length > 0)
         return (
-            <div className={`grid ${gridClassName || "grid-cols-3"} gap-8`}>
+            <div className={`grid ${gridClassName || "grid-cols-1 md:grid-cols-2 2xl:grid-cols-3"} gap-8`}>
                 {albumItems}
             </div>
         );

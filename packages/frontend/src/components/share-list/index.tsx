@@ -43,7 +43,7 @@ const ShareList: FC<{
                 </div>
                 <button
                     type="button"
-                    className="pl-4 opacity-0 transition-all pointer-events-none select-none group-hover:opacity-100 group-hover:pointer-events-auto group-hover:select-all"
+                    className="pl-4 opacity-100 pointer-events-auto lg:opacity-0 transition-all lg:pointer-events-none lg:select-none lg:group-hover:opacity-100 group-hover:pointer-events-auto group-hover:select-all"
                     onClick={() => onShareDelete([email])}
                 >
                     <XIcon className="h-5 w-5 fill-current text-red-600 transition-colors" />

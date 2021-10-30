@@ -4,7 +4,7 @@ import { ReactComponent } from "../../svg/empty.svg";
 const Empty: FC = ({ children }) => {
     return (
         <section data-testid="empty">
-            <div className="mx-auto pb-12 block w-1/2 h-1/2 text-center">
+            <div className="mx-auto pb-12 block w-full h-full lg:w-1/2 lg:h-1/2 text-center">
                 <ReactComponent />
                 <h2 className="text-black mt-12 mb-4 dark:text-white">
                     These aren&apos;t the droids you are looking for
