@@ -81,9 +81,9 @@ export const AlbumSlice = createSlice({
                     fetchAlbums.rejected,
                     fetchAlbum.rejected,
                     deleteAlbum.rejected,
-                    addPhotosToAlbum.pending,
-                    shareAlbum.pending,
-                    unshareAlbum.pending
+                    addPhotosToAlbum.rejected,
+                    shareAlbum.rejected,
+                    unshareAlbum.rejected
                 ),
                 (state) => {
                     state.status = StateStatus.ERROR;
