@@ -20,6 +20,7 @@ import {
     shareAlbum,
     deleteAlbum,
     fetchAlbum,
+    unshareAlbum,
 } from "../../redux/actions/album";
 import { cancelablePromise } from "../../utils";
 
@@ -52,6 +53,10 @@ const Album: FC = () => {
 
     const onShareAdd = async (emails: string[]) => {
         dispatch(shareAlbum({ emails, albumId }));
+    };
+
+    const onShareDelete = async (emails: string[]) => {
+        dispatch(unshareAlbum({ emails, albumId }));
     };
 
     return (
@@ -104,7 +109,7 @@ const Album: FC = () => {
                             <ShareList
                                 sharedWith={album.sharedWith}
                                 onShareAdd={onShareAdd}
-                                onShareDelete={() => null}
+                                onShareDelete={onShareDelete}
                             />
                         </div>
                     </div>
